@@ -69,15 +69,39 @@ namespace Infruesture
 
 
             //6.引用类型的区别
-            var tempObj = new Program();
-            Console.WriteLine("当前Program的FullName是：" + tempObj.GetType().FullName);
-            Console.WriteLine("当前Program的类型是Class：" + tempObj.GetType().IsClass);
-            var attributes = tempObj.GetType().Attributes;
-            Console.WriteLine("当前program的attribute有：" + attributes);
+            //var tempObj = new Program();
+            //Console.WriteLine("当前Program的FullName是：" + tempObj.GetType().FullName);
+            //Console.WriteLine("当前Program的类型是Class：" + tempObj.GetType().IsClass);
+            //var attributes = tempObj.GetType().Attributes;
+            //Console.WriteLine("当前program的attribute有：" + attributes);
 
-            //7.struct类型
-            var structObj = new GetUserName("liupeng", 25);
-            Console.WriteLine("当前的姓名为：" + structObj.UserName + "当前的年龄为：" + structObj.Age);
+            ////7.struct类型
+            //var structObj = new GetUserName("liupeng", 25);
+            //Console.WriteLine("当前的姓名为：" + structObj.UserName + "当前的年龄为：" + structObj.Age);
+
+            //8.Enum的使用的和技巧
+
+            var currentColor =EnumTest.RoleEnum.All;
+            if (currentColor.HasFlag(EnumTest.RoleEnum.Red))
+            {
+                Console.WriteLine("当前颜色包含黑色");
+            }
+
+            //第二种权限枚举
+            //var testSysNum1 = 1;
+            //var testSysNum2 = 5;
+            //var testSysNum3 = testSysNum1 | testSysNum2;
+            //var sysResult1 = testSysNum3 & testSysNum1;
+            //var sysResult2 = testSysNum3 & testSysNum2;
+            //if (sysResult1 == testSysNum1)
+            //{
+            //    Console.WriteLine("当前有testSysNum1的权限");
+            //}
+
+            //if (sysResult2 == testSysNum2)
+            //{
+            //    Console.WriteLine("当前有testSysNum2的权限");
+            //}
 
             Console.ReadKey();
         }
