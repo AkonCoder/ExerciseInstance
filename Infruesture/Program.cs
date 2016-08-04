@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Infruesture
 {
@@ -9,6 +12,11 @@ namespace Infruesture
         // ReSharper disable once StaticMemberInitializerReferesToMemberBelow
         private static readonly int NumA = NumB*10;
         private static readonly int NumB = 10;
+
+        public const int DoNum = 10000;
+
+        public delegate void ShowTimes();
+
 
         public const int NumC = NumD*10;
         private const int NumD = 10;
@@ -107,30 +115,33 @@ namespace Infruesture
 
             //9.this关键字的用法和索引器
 
-            //var seniorEnginer = new SeniorEnginer(10, "牛逼");
+            ////var seniorEnginer = new SeniorEnginer(10, "牛逼");
 
-            //0>声明实体
-            User user = new User();
-            user.ID = 1;
-            user.UserName = "liupeng";
+            ////0>声明实体
+            //User user = new User();
+            //user.ID = 1;
+            //user.UserName = "liupeng";
 
-            //第【一】种用法:this用作索引器 public object this[string name]{……}
-            user["UserID"] = 1;
-            Console.WriteLine("第【一】种用法:this用作索引器");
+            ////第【一】种用法:this用作索引器 public object this[string name]{……}
+            //user["UserID"] = 1;
+            //Console.WriteLine("第【一】种用法:this用作索引器");
 
-            //第【二】种用法:this用作参数传递 user.Say(this);
-            Console.WriteLine("第【二】种用法:this用作参数传递");
-            user.Said();
+            ////第【二】种用法:this用作参数传递 user.Say(this);
+            //Console.WriteLine("第【二】种用法:this用作参数传递");
+            //user.Said();
 
-            //第【三】种用法:this() public VIP:this(){   }
-            Vip vip = new Vip("yezi");
-            vip.Said();
-            Console.WriteLine("第【三】种用法:this()");
+            ////第【三】种用法:this() public VIP:this(){   }
+            //Vip vip = new Vip("yezi");
+            //vip.Said();
+            //Console.WriteLine("第【三】种用法:this()");
 
-            //第【四】种用法： this扩展VIP类 public static Sing(this User user){……}
-            Console.WriteLine("第【四】种用法： this扩展VIP类");
-            user.Sing();
+            ////第【四】种用法： this扩展VIP类 public static Sing(this User user){……}
+            //Console.WriteLine("第【四】种用法： this扩展VIP类");
+            //user.Sing();
 
+            //10.String与StringBuild的区别
+            GetRunningTime(GetStrByString, "String");
+            GetRunningTime(GetStrByStringBuild, "StringBuild");
 
             Console.Read();
 
@@ -166,6 +177,50 @@ namespace Infruesture
         {
             testA = 200;
             testB = 300;
+        }
+
+        /// <summary>
+        /// 获取str使用StringBuild
+        /// </summary>
+        /// <returns></returns>
+        public static void GetStrByStringBuild()
+        {
+            var strNameKey = "liupeng";
+            var strName = new StringBuilder();
+            for (int i = 0; i < DoNum; i++)
+            {
+                strName.Append(strNameKey);
+            }
+        }
+
+        /// <summary>
+        /// 获取Str使用String
+        /// </summary>
+        /// <returns></returns>
+        public static void GetStrByString()
+        {
+            var strName = "";
+            var strNameKey = "liupeng";
+            for (int i = 0; i < DoNum; i++)
+            {
+                strName += strNameKey;
+            }
+        }
+
+        /// <summary>
+        /// 获取拼接字符串共耗费的时间
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="operationName"></param>
+        /// <returns></returns>
+        public static void GetRunningTime(ShowTimes func, string operationName)
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            func.Invoke();
+            stopWatch.Stop();
+            TimeSpan seconds = stopWatch.Elapsed;
+            Console.WriteLine(string.Format("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds));
         }
     }
 
