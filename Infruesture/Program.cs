@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Infruesture
@@ -81,11 +82,11 @@ namespace Infruesture
 
             //8.Enum的使用的和技巧
 
-            var currentColor =EnumTest.RoleEnum.All;
-            if (currentColor.HasFlag(EnumTest.RoleEnum.Red))
-            {
-                Console.WriteLine("当前颜色包含黑色");
-            }
+            //var currentColor =EnumTest.RoleEnum.All;
+            //if (currentColor.HasFlag(EnumTest.RoleEnum.Red))
+            //{
+            //    Console.WriteLine("当前颜色包含黑色");
+            //}
 
             //第二种权限枚举
             //var testSysNum1 = 1;
@@ -102,6 +103,36 @@ namespace Infruesture
             //{
             //    Console.WriteLine("当前有testSysNum2的权限");
             //}
+
+
+            //9.this关键字的用法和索引器
+
+            //var seniorEnginer = new SeniorEnginer(10, "牛逼");
+
+            //0>声明实体
+            User user = new User();
+            user.ID = 1;
+            user.UserName = "liupeng";
+
+            //第【一】种用法:this用作索引器 public object this[string name]{……}
+            user["UserID"] = 1;
+            Console.WriteLine("第【一】种用法:this用作索引器");
+
+            //第【二】种用法:this用作参数传递 user.Say(this);
+            Console.WriteLine("第【二】种用法:this用作参数传递");
+            user.Said();
+
+            //第【三】种用法:this() public VIP:this(){   }
+            Vip vip = new Vip("yezi");
+            vip.Said();
+            Console.WriteLine("第【三】种用法:this()");
+
+            //第【四】种用法： this扩展VIP类 public static Sing(this User user){……}
+            Console.WriteLine("第【四】种用法： this扩展VIP类");
+            user.Sing();
+
+
+            Console.Read();
 
             Console.ReadKey();
         }
@@ -148,5 +179,161 @@ namespace Infruesture
             UserName = name;
             Age = age;
         }
+    }
+
+
+    /// <summary>
+    // 牛逼的程序猿
+    /// </summary>
+    public class SeniorEnginer
+    {
+        public int Level;
+        public string Skill;
+
+        public SeniorEnginer(int level)
+        {
+            Level = level;
+            Console.WriteLine("我的级别是：" + level);
+        }
+
+        public SeniorEnginer(int level, string skill) : this(4)
+        {
+            Level = level;
+            Skill = skill;
+            Console.WriteLine("我的级别是：" + level + ";我的技术很" + skill);
+        }
+    }
+
+    /// <summary>
+    /// 普通用户
+    /// </summary>
+    public class User
+    {
+        /// <summary>
+        /// 全局变量
+        /// </summary>
+        private readonly Dictionary<string, object> _dictInfo = null;
+
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        public User()
+        {
+            _dictInfo = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// 构造函数重载
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userName"></param>
+        public User(int userId, string userName)
+        {
+            this.UserName = userName;
+            this.ID = userId;
+        }
+
+        /// <summary>
+        /// this，第【1】种用法，索引器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public object this[string name]
+        {
+            get { return _dictInfo[name]; }
+            set { _dictInfo[name] = value; }
+        }
+
+
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public int ID { get; set; }
+
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// this第【2】种用法，当做参数传递
+        /// </summary>
+        public void Said()
+        {
+            new Vip().Say(this);
+        }
+    }
+
+    /// <summary>
+    /// 会员
+    /// </summary>
+    public class Vip : User
+    {
+        /// <summary>
+        /// 积分
+        /// </summary>
+        public int Integral { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public Vip()
+        {
+            ID = 520;
+            Integral = 1000;
+        }
+
+        /// <summary>
+        /// this第【3】种用法，通过this()调用无参构造函数
+        /// </summary>
+        /// <param name="userName"></param>
+        public Vip(string userName)
+            : this()
+        {
+            this.UserName = userName;
+        }
+
+        /// <summary>
+        /// 构造函数重载
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userName"></param>
+        public Vip(int userId, string userName)
+            : base(userId, userName)
+        {
+        }
+
+        /// <summary>
+        ///Say方法
+        /// </summary>
+        /// <param name="user"></param>
+        public void Say([Lcq] User user)
+        {
+            Console.WriteLine(string.Format("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName));
+        }
+    }
+
+    /// <summary>
+    /// 静态类，来扩展User类
+    /// </summary>
+    public static class Helper
+    {
+        /// <summary>
+        /// 第【4】种用法： this扩展User类
+        /// </summary>
+        /// <param name="user"></param>
+        public static void Sing(this User user)
+        {
+            Console.WriteLine(string.Format("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName));
+        }
+    }
+
+    /// <summary>
+    /// 特性类：指定特性仅适用于方法和方法的参数
+    /// </summary>
+    [System.AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
+    public class LcqAttribute : System.Attribute
+    {
     }
 }
