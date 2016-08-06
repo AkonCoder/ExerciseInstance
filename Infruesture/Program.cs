@@ -152,22 +152,63 @@ namespace Infruesture
             //    Console.WriteLine("当前的字符数组是：" + t + "\n");
             //}
 
+
+            //（1） == 对值类型则是完全判断两个值的代数值是否相等，其他一概不管。
+            //（2） == 对引用类型则用于比较两个引用类型的对象是否是对于同一个对象的引用，但需要注意的是，对于
+            // 字符串引用类型，由于字符串在分配内存空间的时候，存在字符串驻留机制。
+            // 字符串驻留是CLR提供的一种提高性能的对待字符串的机制，它保证在一个进程内的某个字符串在内存中只分配一次;
+            // 所以secondStr与thirdStr实质上是指向同一个对象的引用。
+
+            int firstNum = 10;
+            double secondNum = 10;
+            int thirdNum = 10;
             var firstStr = "LIUPENG";
             var secondStr = "liupeng";
             var thirdStr = "liupeng";
-            if (thirdStr == secondStr)
+            //if (firstNum == secondNum)
+            //{
+            //    Console.WriteLine("int类型的数值与double类型的==比较是相等的！");
+            //}
+
+            //if (thirdStr == secondStr)
+            //{
+            //    Console.WriteLine("只要我们字符一样，==比较也是一样的！");
+            //}
+
+            //（3） Equal 对于值类型女而言,表现为只要类型相同并且值相等,那么就相等
+            //（4） Equal 对于引用类型而言，表现为
+            //if (!firstNum.Equals(secondNum))
+            //{
+            //    Console.WriteLine("对于类型不同，值相同的数值，用Equal比较是不相同的！");
+            //}
+
+            //if (！thirdStr.Equals(secondStr))
+            //{
+            //    Console.WriteLine("对于引用类型，只要二者引用相同，就是相等的！");
+            //}
+
+            //ReferenceEquals是Object的静态方法，用于比较两个引用类型的对象是否是对于同一个对象的引用。
+            //对于值类型它总是返回false（值类型在封装成相应的值类时总是单独开辟空间，如2个相同的int值在栈中就占2块不同的空间，和字符串是不同的）
+            if (object.ReferenceEquals(secondStr,thirdStr))
             {
-                Console.WriteLine("只要我们字符一样，==比较也是一样的！");
+                Console.WriteLine("ReferenceEquals对于引用类型，只要二者引用相同，就是相等的！");
             }
-            if (!firstStr.Equals(secondStr))
+
+            if (!object.ReferenceEquals(firstNum, thirdNum))
             {
-                Console.WriteLine("分了大小写，我们不一样，不要跟我套近乎！");
+                Console.WriteLine("ReferenceEquals对于值类型，分配的内存地址是不同的，所以一直不相等！");
             }
-            //忽略大小写
-            if (firstStr.Equals(secondStr, StringComparison.OrdinalIgnoreCase))
-            {
-                Console.WriteLine("我们忽略了大小写是一样的!不要觉得自己牛逼！");
-            }
+
+            //字符串区分大小写进行比较
+            //if (!firstStr.Equals(secondStr))
+            //{
+            //    Console.WriteLine("分了大小写，我们不一样，不要跟我套近乎！");
+            //}
+            ////忽略大小写
+            //if (firstStr.Equals(secondStr, StringComparison.OrdinalIgnoreCase))
+            //{
+            //    Console.WriteLine("我们忽略了大小写是一样的!不要觉得自己牛逼！");
+            //}
 
             Console.Read();
 
