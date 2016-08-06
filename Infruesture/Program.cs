@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -140,8 +139,35 @@ namespace Infruesture
             //user.Sing();
 
             //10.String与StringBuild的区别
-            GetRunningTime(GetStrByString, "String");
-            GetRunningTime(GetStrByStringBuild, "StringBuild");
+            //GetRunningTime(GetStrByString, "String");
+            //GetRunningTime(GetStrByStringBuild, "StringBuild");
+
+            //11.字符串的常用方法（Length、ToCharArray、Replace等等）
+            //var strName = "liupeng is a diaosi Coder";
+            ////可见计算字符串的长度时候，空白字符计算在内
+            //Console.WriteLine("当前字符串的长度为：" + strName.Length);
+            //var strCharArray = strName.ToCharArray();
+            //foreach (var t in strCharArray)
+            //{
+            //    Console.WriteLine("当前的字符数组是：" + t + "\n");
+            //}
+
+            var firstStr = "LIUPENG";
+            var secondStr = "liupeng";
+            var thirdStr = "liupeng";
+            if (thirdStr == secondStr)
+            {
+                Console.WriteLine("只要我们字符一样，==比较也是一样的！");
+            }
+            if (!firstStr.Equals(secondStr))
+            {
+                Console.WriteLine("分了大小写，我们不一样，不要跟我套近乎！");
+            }
+            //忽略大小写
+            if (firstStr.Equals(secondStr, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("我们忽略了大小写是一样的!不要觉得自己牛逼！");
+            }
 
             Console.Read();
 
@@ -387,8 +413,8 @@ namespace Infruesture
     /// <summary>
     /// 特性类：指定特性仅适用于方法和方法的参数
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
-    public class LcqAttribute : System.Attribute
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
+    public class LcqAttribute : Attribute
     {
     }
 }
