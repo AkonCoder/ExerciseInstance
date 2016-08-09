@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -189,15 +190,15 @@ namespace Infruesture
 
             //ReferenceEquals是Object的静态方法，用于比较两个引用类型的对象是否是对于同一个对象的引用。
             //对于值类型它总是返回false（值类型在封装成相应的值类时总是单独开辟空间，如2个相同的int值在栈中就占2块不同的空间，和字符串是不同的）
-            if (object.ReferenceEquals(secondStr,thirdStr))
-            {
-                Console.WriteLine("ReferenceEquals对于引用类型，只要二者引用相同，就是相等的！");
-            }
+            //if (object.ReferenceEquals(secondStr, thirdStr))
+            //{
+            //    Console.WriteLine("ReferenceEquals对于引用类型，只要二者引用相同，就是相等的！");
+            //}
 
-            if (!object.ReferenceEquals(firstNum, thirdNum))
-            {
-                Console.WriteLine("ReferenceEquals对于值类型，分配的内存地址是不同的，所以一直不相等！");
-            }
+            //if (!object.ReferenceEquals(firstNum, thirdNum))
+            //{
+            //    Console.WriteLine("ReferenceEquals对于值类型，分配的内存地址是不同的，所以一直不相等！");
+            //}
 
             //字符串区分大小写进行比较
             //if (!firstStr.Equals(secondStr))
@@ -209,6 +210,19 @@ namespace Infruesture
             //{
             //    Console.WriteLine("我们忽略了大小写是一样的!不要觉得自己牛逼！");
             //}
+
+            //12.字符串截取（substring、Contains、Replace等）
+            var sourceStr = "liupeng is a diaosi Coder";
+            //12.1sunString强调从哪开始，截取长度为多少
+            var newStr = sourceStr.Substring(0, 7);
+            Console.WriteLine("新的字符串为：" + newStr);
+            var replaceStr = sourceStr.Replace("Coder", "Boy");
+            Console.WriteLine("Replace以后的字符串为：" + replaceStr);
+            var containBool = sourceStr.Contains("diaosi");
+            Console.WriteLine(containBool ? "具有屌丝气质成立" : "恭喜您，已脱离屌丝气质");
+            var joinStr = "and he is a man";
+            var outPutJoinStr = string.Join(",", sourceStr, joinStr);
+            Console.WriteLine("join以后的气质为：" + outPutJoinStr);
 
             Console.Read();
 
