@@ -212,22 +212,56 @@ namespace Infruesture
             //}
 
             //12.字符串截取（substring、Contains、Replace等）
-            var sourceStr = "liupeng is a diaosi Coder";
-            //12.1sunString强调从哪开始，截取长度为多少
-            var newStr = sourceStr.Substring(0, 7);
-            Console.WriteLine("新的字符串为：" + newStr);
-            var replaceStr = sourceStr.Replace("Coder", "Boy");
-            Console.WriteLine("Replace以后的字符串为：" + replaceStr);
-            var containBool = sourceStr.Contains("diaosi");
-            Console.WriteLine(containBool ? "具有屌丝气质成立" : "恭喜您，已脱离屌丝气质");
-            var joinStr = "and he is a man";
-            var outPutJoinStr = string.Join(",", sourceStr, joinStr);
-            Console.WriteLine("join以后的气质为：" + outPutJoinStr);
+            //var sourceStr = "liupeng is a diaosi Coder";
+            //12.1 sunString强调从哪开始，截取长度为多少
+            //var newStr = sourceStr.Substring(0, 7);
+            //Console.WriteLine("新的字符串为：" + newStr);
+            //var replaceStr = sourceStr.Replace("Coder", "Boy");
+            //Console.WriteLine("Replace以后的字符串为：" + replaceStr);
+            //var containBool = sourceStr.Contains("diaosi");
+            //Console.WriteLine(containBool ? "具有屌丝气质成立" : "恭喜您，已脱离屌丝气质");
+            //var joinStr = "and he is a man";
+            //var outPutJoinStr = string.Join(",", sourceStr, joinStr);
+            //Console.WriteLine("join以后的气质为：" + outPutJoinStr);
+
+            //13.结构体和类的区别以及使用
+            //13.1 ——结构体中不可以直接为字符赋值，而在类中可以直接给字段赋值
+            //13.2 ——隐式的无参数的构造函数在结构中无论如何都是存在的,所以程序员不能手动的为结构添加1个无参数的构造函数.
+            //在结构体的构造函数中,必须要为结构体的所有字段赋值
+            //13.3——在结构体的构造函数中我们为属性赋值,不认为是在对字段赋值,所以我们在构造函数中要直接为字段赋值.
+            //13.4—— 创建结构体对象可以不使用new关键字.直接声明1个变量就可以.但是这样的话,结构体对象中的字段是没有初始值的,所以在使用字段之前必须要为这个字段赋值.
+            //什么时候用类和结构体?
+            /*我们知道,结构存储在栈中,而栈有1个特点,就是空间较小,但是访问速度较快,堆空间较大,但是访问速度相对较慢.所以当我们描述1个轻量级对象的时候,可以将其定义为结构来提高效率.比如点,矩形，颜色,这些对象是轻量级的对象,因为描述他们,只需要少量的字段。
+             * 当描述1个重量级对象的时候，我们知道类的对象是存储在堆空间中的,我们就将重量级对象定义为类. 
+             * 他们都表示可以包含数据成员和函数成员的数据结构。与类不同的是，结构是值类型并且不需要堆分配。
+             * 结构类型的变量直接包含结构的数据，而类类型的变量包含对数据的引用（该变量称为对象）。
+             * struct 类型适合表示如点、矩形和颜色这样的轻量对象。尽管可能将一个点表示为类，但结构在某些方案中更有效。
+             * 在一些情况下，结构的成本较低。例如，如果声明一个含有 1000 个点对象的数组，则将为引用每个对象分配附加的内存。
+             * 所以结构适合表示1个轻量级对象.
+             */
+
+            //14.子类调用父类的构造函数
+
 
             Console.Read();
 
             Console.ReadKey();
         }
+
+
+        //子类调用父类的构造函数
+        public class SeniorEnginerOfSon : SeniorEnginer
+        {
+            public SeniorEnginerOfSon(int level) : base(level)
+            {
+
+            }
+
+            public SeniorEnginerOfSon(int level, string skill) : base(level, skill)
+            {
+            }
+        }
+
 
 
         /// <summary>
