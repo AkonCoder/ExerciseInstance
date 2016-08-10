@@ -291,6 +291,49 @@ namespace Infruesture
             //Console.WriteLine(ht["A"]);
 
 
+            //16.装箱和拆箱
+            //object obj = 4;
+            //int objToNum = (int) obj;
+            //Console.WriteLine("拆箱过后的类型为：" + objToNum.GetType());
+            //Console.WriteLine("拆箱过后的值为：" + objToNum);
+
+            //int oldNum = 10;
+            //object toObj = oldNum;
+            //Console.WriteLine("装箱过后的类型为：" + toObj.GetType());
+            //Console.WriteLine("装箱过后的值为：" + toObj);
+
+            Point p1 = new Point(10, 10);
+
+            Point p2 = new Point(20, 20);
+
+            //调用ToString不装箱，这里ToString是一个虚方法  
+            Console.WriteLine(p1.ToString());
+
+            //GetType是一个非虚方法，p1要装箱  
+            Console.WriteLine(p1.GetType());
+
+            //这里调用的是public int CompareTo(Point p)  
+            //p2不会装箱  
+            Console.WriteLine(p1.CompareTo(p2));
+
+            //p1要装箱，这就是将未装箱的值类型转为类型的某个接口时  
+            IComparable c = p1;
+
+            Console.WriteLine(c.GetType());
+
+            //这里调用的是public Int32 CompareTo(Object o)，  
+            //而且c本来就是一个引用，因此不装箱了  
+            Console.WriteLine(p1.CompareTo(c));
+
+            //这里调用的是c的CompareTo方法，参数是object型的  
+            //所以要对p2装箱  
+            Console.WriteLine(c.CompareTo(p2));
+
+            //对c拆箱，并复制值到p2中  
+            p2 = (Point)c;
+
+            Console.WriteLine(p2.ToString());  
+
             Console.Read();
 
             Console.ReadKey();
@@ -552,4 +595,38 @@ namespace Infruesture
     public class LcqAttribute : Attribute
     {
     }
+
+    internal struct Point : IComparable
+    {
+        private Int32 x;
+
+        private Int32 y;
+
+        public Point(Int32 x, Int32 y)
+        {
+            this.x = x;
+
+            this.y = y;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1}", x, y);//这里装箱两次，不知道有没好办法。  
+        }
+
+        public int CompareTo(Point p)
+        {
+            return Math.Sign(Math.Sqrt(x * x + y * y) - Math.Sqrt(p.x * p.x + p.y * p.y));
+        }
+
+        public Int32 CompareTo(Object o)
+        {
+            if (GetType() != o.GetType())
+            {
+                throw new ArgumentException("o is not Point.");
+            }
+
+            return CompareTo((Point)o);
+        }
+    } 
 }
