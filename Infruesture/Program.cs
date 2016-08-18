@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,17 +9,14 @@ namespace Infruesture
 {
     internal class Program
     {
+        public delegate void ShowTimes();
+
+        public const int DoNum = 10000;
+        public const int NumC = NumD*10;
+        private const int NumD = 10;
         // ReSharper disable once StaticMemberInitializerReferesToMemberBelow
         private static readonly int NumA = NumB*10;
         private static readonly int NumB = 10;
-
-        public const int DoNum = 10000;
-
-        public delegate void ShowTimes();
-
-
-        public const int NumC = NumD*10;
-        private const int NumD = 10;
 
         private static void Main(string[] args)
         {
@@ -160,9 +157,9 @@ namespace Infruesture
             // 字符串驻留是CLR提供的一种提高性能的对待字符串的机制，它保证在一个进程内的某个字符串在内存中只分配一次;
             // 所以secondStr与thirdStr实质上是指向同一个对象的引用。
 
-            int firstNum = 10;
+            var firstNum = 10;
             double secondNum = 10;
-            int thirdNum = 10;
+            var thirdNum = 10;
             var firstStr = "LIUPENG";
             var secondStr = "liupeng";
             var thirdStr = "liupeng";
@@ -302,59 +299,62 @@ namespace Infruesture
             //Console.WriteLine("装箱过后的类型为：" + toObj.GetType());
             //Console.WriteLine("装箱过后的值为：" + toObj);
 
-            Point p1 = new Point(10, 10);
+            //Point p1 = new Point(10, 10);
 
-            Point p2 = new Point(20, 20);
+            //Point p2 = new Point(20, 20);
 
-            //调用ToString不装箱，这里ToString是一个虚方法  
-            Console.WriteLine(p1.ToString());
+            ////调用ToString不装箱，这里ToString是一个虚方法  
+            //Console.WriteLine(p1.ToString());
 
-            //GetType是一个非虚方法，p1要装箱  
-            Console.WriteLine(p1.GetType());
+            ////GetType是一个非虚方法，p1要装箱  
+            //Console.WriteLine(p1.GetType());
 
-            //这里调用的是public int CompareTo(Point p)  
-            //p2不会装箱  
-            Console.WriteLine(p1.CompareTo(p2));
+            ////这里调用的是public int CompareTo(Point p)  
+            ////p2不会装箱  
+            //Console.WriteLine(p1.CompareTo(p2));
 
-            //p1要装箱，这就是将未装箱的值类型转为类型的某个接口时  
-            IComparable c = p1;
+            ////p1要装箱，这就是将未装箱的值类型转为类型的某个接口时  
+            //IComparable c = p1;
 
-            Console.WriteLine(c.GetType());
+            //Console.WriteLine(c.GetType());
 
-            //这里调用的是public Int32 CompareTo(Object o)，  
-            //而且c本来就是一个引用，因此不装箱了  
-            Console.WriteLine(p1.CompareTo(c));
+            ////这里调用的是public Int32 CompareTo(Object o)，  
+            ////而且c本来就是一个引用，因此不装箱了  
+            //Console.WriteLine(p1.CompareTo(c));
 
-            //这里调用的是c的CompareTo方法，参数是object型的  
-            //所以要对p2装箱  
-            Console.WriteLine(c.CompareTo(p2));
+            ////这里调用的是c的CompareTo方法，参数是object型的  
+            ////所以要对p2装箱  
+            //Console.WriteLine(c.CompareTo(p2));
 
-            //对c拆箱，并复制值到p2中  
-            p2 = (Point)c;
+            ////对c拆箱，并复制值到p2中  
+            //p2 = (Point)c;
 
-            Console.WriteLine(p2.ToString());  
+            //Console.WriteLine(p2.ToString());  
+
+            //17.File类的使用
+            //创建某个路径下的文件
+            //var testFilePath = @"D:\tempStudy\1.txt";
+            //File.Create(testFilePath);
+            ////删除某个路径下的文件
+            //File.Delete(testFilePath);
+            //var isExistFile = File.Exists(testFilePath);
+            //Console.WriteLine(isExistFile ? "当前路径存在对应的文件" : "当前路径不存在对应的文件");
+            ////读取文档的内容
+            //var text = File.ReadAllLines(testFilePath, Encoding.Default);
+            ////向文档中追加内容
+            //var newUserContent = "世界真美好！";
+            //File.AppendAllText(testFilePath, newUserContent);
+
+            string path = @"D:\1";
+            Directory.CreateDirectory(path);//创建这个文件夹1,如果这个路径中有这个文件夹,不会覆盖.
 
             Console.Read();
 
             Console.ReadKey();
         }
 
-
-        //子类调用父类的构造函数
-        public class SeniorEnginerOfSon : SeniorEnginer
-        {
-            public SeniorEnginerOfSon(int level) : base(level)
-            {
-            }
-
-            public SeniorEnginerOfSon(int level, string skill) : base(level, skill)
-            {
-            }
-        }
-
-
         /// <summary>
-        /// 获取随机数
+        ///     获取随机数
         /// </summary>
         /// <param name="minNum"></param>
         /// <param name="maxNum"></param>
@@ -362,14 +362,13 @@ namespace Infruesture
         /// <returns></returns>
         public static double GetRandomNum(double minNum, double maxNum, int len)
         {
-            byte[] bytes = new byte[4];
-            RNGCryptoServiceProvider rngObj = new RNGCryptoServiceProvider();
+            var bytes = new byte[4];
+            var rngObj = new RNGCryptoServiceProvider();
             rngObj.GetBytes(bytes);
             var seed = BitConverter.ToInt32(bytes, 0);
             var random = new Random(seed);
             return Math.Round(random.NextDouble()*(maxNum - minNum) + minNum, len);
         }
-
 
         public static void GetRefValue(ref int testA, ref int testB)
         {
@@ -384,35 +383,35 @@ namespace Infruesture
         }
 
         /// <summary>
-        /// 获取str使用StringBuild
+        ///     获取str使用StringBuild
         /// </summary>
         /// <returns></returns>
         public static void GetStrByStringBuild()
         {
             var strNameKey = "liupeng";
             var strName = new StringBuilder();
-            for (int i = 0; i < DoNum; i++)
+            for (var i = 0; i < DoNum; i++)
             {
                 strName.Append(strNameKey);
             }
         }
 
         /// <summary>
-        /// 获取Str使用String
+        ///     获取Str使用String
         /// </summary>
         /// <returns></returns>
         public static void GetStrByString()
         {
             var strName = "";
             var strNameKey = "liupeng";
-            for (int i = 0; i < DoNum; i++)
+            for (var i = 0; i < DoNum; i++)
             {
                 strName += strNameKey;
             }
         }
 
         /// <summary>
-        /// 获取拼接字符串共耗费的时间
+        ///     获取拼接字符串共耗费的时间
         /// </summary>
         /// <param name="func"></param>
         /// <param name="operationName"></param>
@@ -423,15 +422,27 @@ namespace Infruesture
             stopWatch.Start();
             func.Invoke();
             stopWatch.Stop();
-            TimeSpan seconds = stopWatch.Elapsed;
-            Console.WriteLine(string.Format("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds));
+            var seconds = stopWatch.Elapsed;
+            Console.WriteLine("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds);
+        }
+
+        //子类调用父类的构造函数
+        public class SeniorEnginerOfSon : SeniorEnginer
+        {
+            public SeniorEnginerOfSon(int level) : base(level)
+            {
+            }
+
+            public SeniorEnginerOfSon(int level, string skill) : base(level, skill)
+            {
+            }
         }
     }
 
     public struct GetUserName
     {
-        public string UserName;
         public int Age;
+        public string UserName;
 
         public GetUserName(string name, int age)
         {
@@ -441,8 +452,8 @@ namespace Infruesture
     }
 
 
-    /// <summary>
     // 牛逼的程序猿
+    /// <summary>
     /// </summary>
     public class SeniorEnginer
     {
@@ -464,17 +475,17 @@ namespace Infruesture
     }
 
     /// <summary>
-    /// 普通用户
+    ///     普通用户
     /// </summary>
     public class User
     {
         /// <summary>
-        /// 全局变量
+        ///     全局变量
         /// </summary>
-        private readonly Dictionary<string, object> _dictInfo = null;
+        private readonly Dictionary<string, object> _dictInfo;
 
         /// <summary>
-        /// 构造器
+        ///     构造器
         /// </summary>
         public User()
         {
@@ -482,18 +493,18 @@ namespace Infruesture
         }
 
         /// <summary>
-        /// 构造函数重载
+        ///     构造函数重载
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="userName"></param>
         public User(int userId, string userName)
         {
-            this.UserName = userName;
-            this.ID = userId;
+            UserName = userName;
+            ID = userId;
         }
 
         /// <summary>
-        /// this，第【1】种用法，索引器
+        ///     this，第【1】种用法，索引器
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -503,20 +514,18 @@ namespace Infruesture
             set { _dictInfo[name] = value; }
         }
 
-
         /// <summary>
-        /// 编号
+        ///     编号
         /// </summary>
         public int ID { get; set; }
 
-
         /// <summary>
-        /// 用户名
+        ///     用户名
         /// </summary>
         public string UserName { get; set; }
 
         /// <summary>
-        /// this第【2】种用法，当做参数传递
+        ///     this第【2】种用法，当做参数传递
         /// </summary>
         public void Said()
         {
@@ -525,17 +534,12 @@ namespace Infruesture
     }
 
     /// <summary>
-    /// 会员
+    ///     会员
     /// </summary>
     public class Vip : User
     {
         /// <summary>
-        /// 积分
-        /// </summary>
-        public int Integral { get; set; }
-
-        /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         public Vip()
         {
@@ -544,17 +548,17 @@ namespace Infruesture
         }
 
         /// <summary>
-        /// this第【3】种用法，通过this()调用无参构造函数
+        ///     this第【3】种用法，通过this()调用无参构造函数
         /// </summary>
         /// <param name="userName"></param>
         public Vip(string userName)
             : this()
         {
-            this.UserName = userName;
+            UserName = userName;
         }
 
         /// <summary>
-        /// 构造函数重载
+        ///     构造函数重载
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="userName"></param>
@@ -564,32 +568,37 @@ namespace Infruesture
         }
 
         /// <summary>
-        ///Say方法
+        ///     积分
+        /// </summary>
+        public int Integral { get; set; }
+
+        /// <summary>
+        ///     Say方法
         /// </summary>
         /// <param name="user"></param>
         public void Say([Lcq] User user)
         {
-            Console.WriteLine(string.Format("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName));
+            Console.WriteLine("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName);
         }
     }
 
     /// <summary>
-    /// 静态类，来扩展User类
+    ///     静态类，来扩展User类
     /// </summary>
     public static class Helper
     {
         /// <summary>
-        /// 第【4】种用法： this扩展User类
+        ///     第【4】种用法： this扩展User类
         /// </summary>
         /// <param name="user"></param>
         public static void Sing(this User user)
         {
-            Console.WriteLine(string.Format("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName));
+            Console.WriteLine("嗨，大家好！我的编号是{0}，大家可以叫我{1}！", user.ID, user.UserName);
         }
     }
 
     /// <summary>
-    /// 特性类：指定特性仅适用于方法和方法的参数
+    ///     特性类：指定特性仅适用于方法和方法的参数
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
     public class LcqAttribute : Attribute
@@ -598,35 +607,34 @@ namespace Infruesture
 
     internal struct Point : IComparable
     {
-        private Int32 x;
+        private readonly int x;
+        private readonly int y;
 
-        private Int32 y;
-
-        public Point(Int32 x, Int32 y)
+        public Point(int x, int y)
         {
             this.x = x;
 
             this.y = y;
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0},{1}", x, y);//这里装箱两次，不知道有没好办法。  
-        }
-
-        public int CompareTo(Point p)
-        {
-            return Math.Sign(Math.Sqrt(x * x + y * y) - Math.Sqrt(p.x * p.x + p.y * p.y));
-        }
-
-        public Int32 CompareTo(Object o)
+        public int CompareTo(object o)
         {
             if (GetType() != o.GetType())
             {
                 throw new ArgumentException("o is not Point.");
             }
 
-            return CompareTo((Point)o);
+            return CompareTo((Point) o);
         }
-    } 
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1}", x, y); //这里装箱两次，不知道有没好办法。  
+        }
+
+        public int CompareTo(Point p)
+        {
+            return Math.Sign(Math.Sqrt(x*x + y*y) - Math.Sqrt(p.x*p.x + p.y*p.y));
+        }
+    }
 }
