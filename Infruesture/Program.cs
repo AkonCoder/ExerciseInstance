@@ -345,12 +345,35 @@ namespace Infruesture
             //var newUserContent = "世界真美好！";
             //File.AppendAllText(testFilePath, newUserContent);
 
-            string path = @"D:\1";
-            Directory.CreateDirectory(path);//创建这个文件夹1,如果这个路径中有这个文件夹,不会覆盖.
+            //var path = @"D:\1";
+            //Directory.CreateDirectory(path); //创建这个文件夹1,如果这个路径中有这个文件夹,不会覆盖.
+
+            var showText = StramWriteFile();
+            Console.WriteLine("当前读取的内容为：" + showText);
 
             Console.Read();
 
             Console.ReadKey();
+        }
+
+        /// <summary>
+        ///    StreamRead文件读取
+        /// </summary>
+        public static string StramWriteFile()
+        {
+            var showTxt = new StringBuilder();
+            var testFilePath = @"D:\tempStudy\1.txt";
+            var fs = new FileStream(testFilePath, FileMode.Open);
+            var swReader = new StreamReader(fs);
+            var iChar = swReader.Read();
+            while (iChar != -1)
+            {
+                showTxt.Append(Convert.ToChar(iChar));
+                iChar = swReader.Read();
+            }
+            swReader.Close();
+
+            return showTxt.ToString();
         }
 
         /// <summary>
