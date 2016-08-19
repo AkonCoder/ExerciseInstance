@@ -348,8 +348,13 @@ namespace Infruesture
             //var path = @"D:\1";
             //Directory.CreateDirectory(path); //创建这个文件夹1,如果这个路径中有这个文件夹,不会覆盖.
 
-            var showText = StramWriteFile();
-            Console.WriteLine("当前读取的内容为：" + showText);
+            //var showText = StramWriteFile();
+            //Console.WriteLine("当前读取的内容为：" + showText);
+
+
+            //农历日月
+            var result = ChineseLunisolarCalendar.GetChineseDateTime(DateTime.Now);
+            Console.WriteLine("今天是农历：" + result);
 
             Console.Read();
 
@@ -357,7 +362,7 @@ namespace Infruesture
         }
 
         /// <summary>
-        ///    StreamRead文件读取
+        ///     StreamRead文件读取
         /// </summary>
         public static string StramWriteFile()
         {
