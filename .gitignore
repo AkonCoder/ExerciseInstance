@@ -347,3 +347,7 @@
 /packages/Microsoft.Net.Http.2.0.20710.0/lib/net40/System.Net.Http.xml
 /Infruesture/obj/Debug
 /GenerateAESCode/obj/Debug/GenerateAESCode.csprojResolveAssemblyReference.cache
+/Infruesture/bin/Debug/Tital.dll
+/Infruesture/packages.config
+/packages/Tital.1.5.0.8/Tital.1.5.0.8.nupkg
+/packages/Tital.1.5.0.8/lib/net45/Tital.dll

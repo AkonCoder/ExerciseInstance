@@ -353,12 +353,35 @@ namespace Infruesture
 
 
             //农历日月
-            var result = ChineseLunisolarCalendar.GetChineseDateTime(DateTime.Now);
+            //var result = ChineseLunisolarCalendar.GetChineseDateTime(DateTime.Now);
+            //Console.WriteLine("今天是农历：" + result);
+
+            var result = SolarToChineseLunisolarDate(DateTime.Now);
             Console.WriteLine("今天是农历：" + result);
+
+            var month = DateTime.Now.Month;
+            var day = DateTime.Now.Day;
+            var currentDate = Convert.ToDateTime( month + "-" + day);
+            Console.WriteLine("今天是日期为：" + currentDate);
 
             Console.Read();
 
             Console.ReadKey();
+        }
+
+        /// <summary>
+        ///     公历转为农历的函数
+        /// </summary>
+        /// <param name="solarDateTime">公历日期</param>
+        /// <returns>农历的日期</returns>
+        private static string SolarToChineseLunisolarDate(DateTime solarDateTime)
+        {
+            var cal = new System.Globalization.ChineseLunisolarCalendar();
+            var year = cal.GetYear(solarDateTime);
+            var month = cal.GetMonth(solarDateTime);
+            var day = cal.GetDayOfMonth(solarDateTime);
+            var leapMonth = cal.GetLeapMonth(year);
+            return string.Join("-", year, month, day);
         }
 
         /// <summary>
