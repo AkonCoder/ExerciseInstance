@@ -356,13 +356,17 @@ namespace Infruesture
             //var result = ChineseLunisolarCalendar.GetChineseDateTime(DateTime.Now);
             //Console.WriteLine("今天是农历：" + result);
 
-            var result = SolarToChineseLunisolarDate(DateTime.Now);
-            Console.WriteLine("今天是农历：" + result);
+            //var result = SolarToChineseLunisolarDate(DateTime.Now);
+            //Console.WriteLine("今天是农历：" + result);
 
-            var month = DateTime.Now.Month;
-            var day = DateTime.Now.Day;
-            var currentDate = Convert.ToDateTime( month + "-" + day);
-            Console.WriteLine("今天是日期为：" + currentDate);
+            //var month = DateTime.Now.Month;
+            //var day = DateTime.Now.Day;
+            //var currentDate = Convert.ToDateTime( month + "-" + day);
+            //Console.WriteLine("今天是日期为：" + currentDate);
+
+            var currentShortDate = DateTime.Now.Date.ToShortDateString();
+            Console.WriteLine("当前短日期时间为：" + currentShortDate);
+
 
             Console.Read();
 

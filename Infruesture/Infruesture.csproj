@@ -54,6 +54,7 @@
     <Compile Include="EnumTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="StaticTest.cs" />
   </ItemGroup>
   <ItemGroup>
