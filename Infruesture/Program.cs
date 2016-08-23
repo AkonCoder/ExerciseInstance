@@ -364,9 +364,12 @@ namespace Infruesture
             //var currentDate = Convert.ToDateTime( month + "-" + day);
             //Console.WriteLine("今天是日期为：" + currentDate);
 
-            var currentShortDate = DateTime.Now.Date.ToShortDateString();
-            Console.WriteLine("当前短日期时间为：" + currentShortDate);
+            //var currentShortDate = DateTime.Now.Date.ToShortDateString();
+            //Console.WriteLine("当前短日期时间为：" + currentShortDate);
 
+            var dateString = DateTime.Now.AddDays(0).Date.ToShortDateString() + " " + "08:20";
+            var showDate = Convert.ToDateTime(dateString);
+            Console.WriteLine("当前转换的日期为："+ showDate);
 
             Console.Read();
 
