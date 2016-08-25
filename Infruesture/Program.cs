@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -367,9 +368,18 @@ namespace Infruesture
             //var currentShortDate = DateTime.Now.Date.ToShortDateString();
             //Console.WriteLine("当前短日期时间为：" + currentShortDate);
 
-            var dateString = DateTime.Now.AddDays(0).Date.ToShortDateString() + " " + "08:20";
-            var showDate = Convert.ToDateTime(dateString);
-            Console.WriteLine("当前转换的日期为："+ showDate);
+            //var dateString = DateTime.Now.AddDays(0).Date.ToShortDateString() + " " + "08:20";
+            //var showDate = Convert.ToDateTime(dateString);
+            //Console.WriteLine("当前转换的日期为："+ showDate);
+
+            var lunnar = new ChineseLunisolarCalendar();
+            var lunnarYear = lunnar.GetYear(DateTime.Now);
+            var lunnarMonth = lunnar.GetMonth(DateTime.Now);
+            var lunnarDay = lunnar.GetDayOfMonth(DateTime.Now);
+            var isLeapYear = lunnar.IsLeapYear(DateTime.Now.Year);
+            var lunnarDateTemp = new DateTime(lunnarYear, lunnarMonth, lunnarDay);
+            var lunnarDate = ChineseCalendarInfo.GetDateFromLunarDate(lunnarDateTemp, isLeapYear);
+            Console.WriteLine("当前转换的日期为：" + lunnarDate);
 
             Console.Read();
 
@@ -383,7 +393,7 @@ namespace Infruesture
         /// <returns>农历的日期</returns>
         private static string SolarToChineseLunisolarDate(DateTime solarDateTime)
         {
-            var cal = new System.Globalization.ChineseLunisolarCalendar();
+            var cal = new ChineseLunisolarCalendar();
             var year = cal.GetYear(solarDateTime);
             var month = cal.GetMonth(solarDateTime);
             var day = cal.GetDayOfMonth(solarDateTime);
