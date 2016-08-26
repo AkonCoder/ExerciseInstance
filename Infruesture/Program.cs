@@ -372,14 +372,20 @@ namespace Infruesture
             //var showDate = Convert.ToDateTime(dateString);
             //Console.WriteLine("当前转换的日期为："+ showDate);
 
-            var lunnar = new ChineseLunisolarCalendar();
-            var lunnarYear = lunnar.GetYear(DateTime.Now);
-            var lunnarMonth = lunnar.GetMonth(DateTime.Now);
-            var lunnarDay = lunnar.GetDayOfMonth(DateTime.Now);
-            var isLeapYear = lunnar.IsLeapYear(DateTime.Now.Year);
-            var lunnarDateTemp = new DateTime(lunnarYear, lunnarMonth, lunnarDay);
-            var lunnarDate = ChineseCalendarInfo.GetDateFromLunarDate(lunnarDateTemp, isLeapYear);
-            Console.WriteLine("当前转换的日期为：" + lunnarDate);
+            //var lunnar = new ChineseLunisolarCalendar();
+            //var lunnarYear = lunnar.GetYear(DateTime.Now);
+            //var lunnarMonth = lunnar.GetMonth(DateTime.Now);
+            //var lunnarDay = lunnar.GetDayOfMonth(DateTime.Now);
+            //var isLeapYear = lunnar.IsLeapYear(DateTime.Now.Year);
+            //var lunnarDateTemp = new DateTime(lunnarYear, lunnarMonth, lunnarDay);
+            //var lunnarDate = ChineseCalendarInfo.GetDateFromLunarDate(lunnarDateTemp, isLeapYear);
+            //Console.WriteLine("当前转换的日期为：" + lunnarDate);
+
+            var timeNode = "8:20";
+            var timeContains = timeNode.Split(':');
+            var sendTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                Convert.ToInt32(timeContains[0]), Convert.ToInt32(timeContains[1]), 0);
+            Console.WriteLine("当前的时间为：" + sendTime);
 
             Console.Read();
 
