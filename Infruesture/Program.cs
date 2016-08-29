@@ -164,6 +164,28 @@ namespace Infruesture
             var firstStr = "LIUPENG";
             var secondStr = "liupeng";
             var thirdStr = "liupeng";
+
+            //测试题目1：
+            //object m1 = 1;
+            //object m2 = 1;
+            //Console.WriteLine(m1==m2);
+            //Console.WriteLine(m1.Equals(m2));
+
+            //测试题目2：
+            string str1 = "ZhangSan";
+            string str2 = "ZhangSan";
+            string str3 = new string(new char[] { 'z', 'h' });
+            string str4 = new string(new char[] { 'z', 'h' });
+
+            Console.WriteLine("str1 == str2  " + (str1 == str2).ToString());
+            Console.WriteLine("str1 Equals str2  " + str1.Equals(str2));
+
+            Console.WriteLine("str3 == str4 " + (str3 == str4).ToString());
+            Console.WriteLine("str3 Equals str4 " + str3.Equals(str4)); 
+ 
+
+
+
             //if (firstNum == secondNum)
             //{
             //    Console.WriteLine("int类型的数值与double类型的==比较是相等的！");
@@ -381,11 +403,11 @@ namespace Infruesture
             //var lunnarDate = ChineseCalendarInfo.GetDateFromLunarDate(lunnarDateTemp, isLeapYear);
             //Console.WriteLine("当前转换的日期为：" + lunnarDate);
 
-            var timeNode = "8:20";
-            var timeContains = timeNode.Split(':');
-            var sendTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                Convert.ToInt32(timeContains[0]), Convert.ToInt32(timeContains[1]), 0);
-            Console.WriteLine("当前的时间为：" + sendTime);
+            //var timeNode = "8:20";
+            //var timeContains = timeNode.Split(':');
+            //var sendTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+            //    Convert.ToInt32(timeContains[0]), Convert.ToInt32(timeContains[1]), 0);
+            //Console.WriteLine("当前的时间为：" + sendTime);
 
             Console.Read();
 
