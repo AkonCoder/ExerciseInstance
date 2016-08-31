@@ -409,14 +409,67 @@ namespace Infruesture
             //var timeShow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0);
             //Console.WriteLine("当前的日期为：" + timeShow);
 
-            var date =new DateTime(2016,8,8);
-            var showTime = date.ToString("M月d日", DateTimeFormatInfo.InvariantInfo);
+            //var date =new DateTime(2016,8,8);
+            //var showTime = date.ToString("M月d日", DateTimeFormatInfo.InvariantInfo);
 
-            Console.WriteLine(showTime);
+            //Console.WriteLine(showTime);
+
+            //使用yield
+            MusicTitles titles = new MusicTitles();
+            foreach (string title in titles)
+            {
+                Console.WriteLine(title);
+            }
+
+            Console.WriteLine();
+
+            foreach (string title in titles.Reverse())
+            {
+                Console.WriteLine(title);
+            }
+
+            Console.WriteLine();
+
+            foreach (string title in titles.Subset(2, 2))
+            {
+                Console.WriteLine(title);
+                Console.ReadLine();
+            }
 
             Console.Read();
 
             Console.ReadKey();
+        }
+
+        public class MusicTitles
+        {
+            string[] names = { "a", "b", "c", "d" };
+
+            string[] _tempName = {"1", "2"};
+
+            public IEnumerator<string> GetEnumerator()
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Reverse()
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Subset(int index, int length)
+            {
+                for (int i = index; i < index + length; i++)
+                {
+                    yield return names[i];
+                }
+            }
         }
 
         /// <summary>
