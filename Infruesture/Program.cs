@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 namespace Infruesture
 {
@@ -414,62 +416,55 @@ namespace Infruesture
 
             //Console.WriteLine(showTime);
 
-            //使用yield
-            MusicTitles titles = new MusicTitles();
-            foreach (string title in titles)
-            {
-                Console.WriteLine(title);
-            }
+            //使用yield return
+            //MusicTitles titles = new MusicTitles();
+            //foreach (string title in titles)
+            //{
+            //    Console.WriteLine(title);
+            //}
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            foreach (string title in titles.Reverse())
-            {
-                Console.WriteLine(title);
-            }
+            //foreach (string title in titles.Reverse())
+            //{
+            //    Console.WriteLine(title);
+            //}
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            foreach (string title in titles.Subset(2, 2))
-            {
-                Console.WriteLine(title);
-                Console.ReadLine();
-            }
+            //foreach (string title in titles.Subset(2, 2))
+            //{
+            //    Console.WriteLine(title);
+            //    Console.ReadLine();
+            //}
+
+            //异步调用
+            var info = "I am king";
+            var sendMessage = new WriteMessageDelegate(WriteMessage);
+            sendMessage.BeginInvoke(info,
+                item =>
+                {
+                    if (item == null)
+                    {
+                        throw new ArgumentException("wrong");
+                    }
+                    var del = (WriteMessageDelegate) ((AsyncResult) item).AsyncDelegate;
+                    del.EndInvoke(item);
+                }, null);
+
+            Console.WriteLine("异步打印还没有出来");
+            Console.WriteLine("我还在等");
 
             Console.Read();
 
             Console.ReadKey();
         }
 
-        public class MusicTitles
+        public static void WriteMessage(string info)
         {
-            string[] names = { "a", "b", "c", "d" };
-
-            string[] _tempName = {"1", "2"};
-
-            public IEnumerator<string> GetEnumerator()
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    yield return names[i];
-                }
-            }
-
-            public IEnumerable<string> Reverse()
-            {
-                for (int i = 3; i >= 0; i--)
-                {
-                    yield return names[i];
-                }
-            }
-
-            public IEnumerable<string> Subset(int index, int length)
-            {
-                for (int i = index; i < index + length; i++)
-                {
-                    yield return names[i];
-                }
-            }
+            Thread.Sleep(2000);
+            var message = string.Format("当前的发送消息为：{0}", info);
+            Console.WriteLine(message);
         }
 
         /// <summary>
@@ -578,6 +573,38 @@ namespace Infruesture
             stopWatch.Stop();
             var seconds = stopWatch.Elapsed;
             Console.WriteLine("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds);
+        }
+
+        private delegate void WriteMessageDelegate(string msg);
+
+        public class MusicTitles
+        {
+            private readonly string[] names = {"a", "b", "c", "d"};
+            private string[] _tempName = {"1", "2"};
+
+            public IEnumerator<string> GetEnumerator()
+            {
+                for (var i = 0; i < 4; i++)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Reverse()
+            {
+                for (var i = 3; i >= 0; i--)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Subset(int index, int length)
+            {
+                for (var i = index; i < index + length; i++)
+                {
+                    yield return names[i];
+                }
+            }
         }
 
         //子类调用父类的构造函数
