@@ -172,18 +172,16 @@ namespace Infruesture
             //Console.WriteLine(m1.Equals(m2));
 
             //测试题目2：
-            string str1 = "ZhangSan";
-            string str2 = "ZhangSan";
-            string str3 = new string(new char[] { 'z', 'h' });
-            string str4 = new string(new char[] { 'z', 'h' });
+            //string str1 = "ZhangSan";
+            //string str2 = "ZhangSan";
+            //string str3 = new string(new char[] { 'z', 'h' });
+            //string str4 = new string(new char[] { 'z', 'h' });
 
-            Console.WriteLine("str1 == str2  " + (str1 == str2).ToString());
-            Console.WriteLine("str1 Equals str2  " + str1.Equals(str2));
+            //Console.WriteLine("str1 == str2  " + (str1 == str2).ToString());
+            //Console.WriteLine("str1 Equals str2  " + str1.Equals(str2));
 
-            Console.WriteLine("str3 == str4 " + (str3 == str4).ToString());
-            Console.WriteLine("str3 Equals str4 " + str3.Equals(str4)); 
- 
-
+            //Console.WriteLine("str3 == str4 " + (str3 == str4).ToString());
+            //Console.WriteLine("str3 Equals str4 " + str3.Equals(str4)); 
 
 
             //if (firstNum == secondNum)
@@ -408,6 +406,13 @@ namespace Infruesture
             //var sendTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
             //    Convert.ToInt32(timeContains[0]), Convert.ToInt32(timeContains[1]), 0);
             //Console.WriteLine("当前的时间为：" + sendTime);
+            //var timeShow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0);
+            //Console.WriteLine("当前的日期为：" + timeShow);
+
+            var date =new DateTime(2016,8,8);
+            var showTime = date.ToString("M月d日", DateTimeFormatInfo.InvariantInfo);
+
+            Console.WriteLine(showTime);
 
             Console.Read();
 
