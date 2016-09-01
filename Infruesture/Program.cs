@@ -517,15 +517,19 @@ namespace Infruesture
             //var result = WriteRedisData();
             //Console.WriteLine(result ? "写入Redis成功 " : "写入Redis失败");
 
-            var isOpenWechatOrderPush = ConfigurationManager.AppSettings["IsOpenWechatOrderPush"];
-            if (isOpenWechatOrderPush == "true")
-            {
-                Console.WriteLine("微信收单账单推送开关打开了");
-            }
-            else
-            {
-                Console.WriteLine("微信收单账单推送开关关闭了");
-            }
+            //var isOpenWechatOrderPush = ConfigurationManager.AppSettings["IsOpenWechatOrderPush"];
+            //if (isOpenWechatOrderPush == "true")
+            //{
+            //    Console.WriteLine("微信收单账单推送开关打开了");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("微信收单账单推送开关关闭了");
+            //}
+
+            var userName = TestStaticClass.UserName;
+            Console.WriteLine("默认的用户名为："+ userName);
+            
 
             Console.Read();
 
