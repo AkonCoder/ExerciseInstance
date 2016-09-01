@@ -1,9 +1,10 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -439,26 +440,86 @@ namespace Infruesture
             //}
 
             //异步调用
-            var info = "I am king";
-            var sendMessage = new WriteMessageDelegate(WriteMessage);
-            sendMessage.BeginInvoke(info,
-                item =>
-                {
-                    if (item == null)
-                    {
-                        throw new ArgumentException("wrong");
-                    }
-                    var del = (WriteMessageDelegate) ((AsyncResult) item).AsyncDelegate;
-                    del.EndInvoke(item);
-                }, null);
+            //var info = "I am king";
+            //var sendMessage = new WriteMessageDelegate(WriteMessage);
+            //sendMessage.BeginInvoke(info,
+            //    item =>
+            //    {
+            //        if (item == null)
+            //        {
+            //            throw new ArgumentException("wrong");
+            //        }
+            //        var del = (WriteMessageDelegate) ((AsyncResult) item).AsyncDelegate;
+            //        del.EndInvoke(item);
+            //    }, null);
 
-            Console.WriteLine("异步打印还没有出来");
-            Console.WriteLine("我还在等");
+            //Console.WriteLine("异步打印还没有出来");
+            //Console.WriteLine("我还在等");
+
+            #region string类型对于==、Equal、ReferenceEqual的判断
+
+            Console.WriteLine("****************string类型对于==、Equal、ReferenceEqual的判断*****************");
+
+            var str1 = new string(new[] {'a'});
+            var str2 = new string(new[] {'a'});
+            Console.WriteLine("直接用==比较相等吗？" + (str1 == str2));
+            Console.WriteLine("直接用Equal比较相等吗？" + str1.Equals(str2));
+            Console.WriteLine("两个字符串的引用相等吗？" + ReferenceEquals(str1, str2));
+
+            Console.WriteLine("==============我是分割线");
+
+            var firstName = "AkonCoder";
+            var secondName = "AkonCoder";
+            Console.WriteLine("直接用==比较相等吗？" + (firstName == secondName));
+            Console.WriteLine("直接用Equal比较相等吗？" + firstName.Equals(secondName));
+            Console.WriteLine("两个字符串的引用相等吗？" + ReferenceEquals(firstName, secondName));
+
+            #endregion
+
+            #region 值类型对于==、Equual、ReferenceEqual的判断
+
+            Console.WriteLine("****************值类型对于==、Equual、ReferenceEqual的判断*****************");
+            var num1 = 2;
+            var num2 = 2;
+            Console.WriteLine("当前两个数值比较的值为：" + (num1 == num2));
+            Console.WriteLine("当前两个值用Equal比较的值为：" + num1.Equals(num2));
+            Console.WriteLine("当前两个值用ReferenceEqual比较的值为：" + ReferenceEquals(num1, num2));
+
+            #endregion
+
+            #region 引用类型对于==、Equual、ReferenceEqual的判断
+
+            Console.WriteLine("****************引用类型对于==、Equual、ReferenceEqual的判断*****************");
+
+            var oneName = new MyName();
+            var twoName = new MyName();
+            Console.WriteLine("引用类型对于==比较的结果为：" + (oneName == twoName));
+            Console.WriteLine("引用类型对于Equal比较的结果为：" + oneName.Equals(twoName));
+            Console.WriteLine("应用类型对于ReferenceEqual比较的结果为：" + ReferenceEquals(oneName, twoName));
+
+
+            //Console.WriteLine("当前Class的类型为：" + typeof (MyName));
+            //Console.WriteLine("获取当前对象的Type" + oneName.GetType());
+
+            #endregion
+
+
+            PropertyInfo[] props = null;
+            Type type = typeof (MyName);
+            object obj = Activator.CreateInstance(type);
+            props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance| BindingFlags.Default);
+            for (int i = 0; i < props.Length; i++)
+            {
+                Console.WriteLine(props[i]);
+            }
+     
 
             Console.Read();
 
             Console.ReadKey();
         }
+
+        
 
         public static void WriteMessage(string info)
         {
@@ -573,6 +634,21 @@ namespace Infruesture
             stopWatch.Stop();
             var seconds = stopWatch.Elapsed;
             Console.WriteLine("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds);
+        }
+
+        public class MyName
+        {
+            public string id;
+           
+            public string Id { get { return id; } set { id = value; } }
+
+           private string name;
+           public string Name { get { return name; } set { name = value; } }
+
+           private string age;
+           public string Age { get { return age; } set { age = value; } }
+
+
         }
 
         private delegate void WriteMessageDelegate(string msg);
