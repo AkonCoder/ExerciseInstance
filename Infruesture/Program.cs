@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -513,8 +514,18 @@ namespace Infruesture
             //}
 
             //写入redis数据
-            var result = WriteRedisData();
-            Console.WriteLine(result ? "写入Redis成功 " : "写入Redis失败");
+            //var result = WriteRedisData();
+            //Console.WriteLine(result ? "写入Redis成功 " : "写入Redis失败");
+
+            var isOpenWechatOrderPush = ConfigurationManager.AppSettings["IsOpenWechatOrderPush"];
+            if (isOpenWechatOrderPush == "true")
+            {
+                Console.WriteLine("微信收单账单推送开关打开了");
+            }
+            else
+            {
+                Console.WriteLine("微信收单账单推送开关关闭了");
+            }
 
             Console.Read();
 
