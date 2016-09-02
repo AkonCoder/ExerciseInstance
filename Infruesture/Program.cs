@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Infruesture.Redis;
+using MySoft.Logger;
 using Newtonsoft.Json;
 
 namespace Infruesture
@@ -530,9 +531,30 @@ namespace Infruesture
 
             //var userName = TestStaticClass.UserName;
             //Console.WriteLine("默认的用户名为：" + userName);
-            var couponUrl = GetShortUrl(397, 12861);
-            Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
+            //var couponUrl = GetShortUrl(397, 12861);
+            //Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
 
+            //log4net 测试
+
+            var logInfo = "这是日志";
+
+            for (var i = 0; i < 100; i++)
+            {
+                LogHelper.Info(logInfo + "【" + i + "】");
+            }
+            Console.WriteLine("打印日志完成！");
+
+            //引用mysoft.Core组件记录日志
+            //var mailAddress = "1013630498@qq.com";
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    SimpleLog.Instance.WriteLogForFile("记录日志",logInfo);
+            //    SimpleLog.Instance.WriteLogWithSendMail("记录日志", mailAddress);
+            //}
+            //Console.WriteLine("记录日志完成！");
+
+          
 
             Console.Read();
 
