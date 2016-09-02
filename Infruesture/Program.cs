@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -527,13 +528,46 @@ namespace Infruesture
             //    Console.WriteLine("微信收单账单推送开关关闭了");
             //}
 
-            var userName = TestStaticClass.UserName;
-            Console.WriteLine("默认的用户名为："+ userName);
-            
+            //var userName = TestStaticClass.UserName;
+            //Console.WriteLine("默认的用户名为：" + userName);
+            var couponUrl = GetShortUrl(397, 12861);
+            Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
+
 
             Console.Read();
 
             Console.ReadKey();
+        }
+
+        /// <summary>
+        ///     获得微信收单优惠券分享地址
+        /// </summary>
+        /// <param name="accId">店铺ID</param>
+        /// <param name="groupId"></param>
+        /// <returns>1-短链Url 0-失败，店铺openid</returns>
+        public static string GetShortUrl(int accId, int groupId)
+        {
+            var strSql = new StringBuilder();
+            strSql.Append("SELECT shortUrl FROM [I200].[dbo].[T_CouponInfo] WHERE accID=@accId AND id=@groupId ;");
+            var oResult = string.Empty;
+            SqlParameter[] parms =
+            {
+                new SqlParameter("@accId", SqlDbType.Int),
+                new SqlParameter("@groupId", SqlDbType.Int)
+            };
+            parms[0].Value = accId;
+            parms[1].Value = groupId;
+
+            var ds = DbHelperSQL.Query(strSql.ToString(), parms);
+            if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            {
+                var row = ds.Tables[0].Rows[0];
+                if (row["shortUrl"] != null && row["shortUrl"] != "")
+                {
+                    oResult = row["shortUrl"].ToString();
+                }
+            }
+            return oResult;
         }
 
         /// <summary>

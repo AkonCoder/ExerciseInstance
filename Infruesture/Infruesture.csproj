@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChineseCalendarInfo.cs" />
+    <Compile Include="CommandInfo.cs" />
+    <Compile Include="DbHelperSQL.cs" />
     <Compile Include="EnumTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
