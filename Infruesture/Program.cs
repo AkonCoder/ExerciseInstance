@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Infruesture.Redis;
-using MySoft.Logger;
 using Newtonsoft.Json;
 
 namespace Infruesture
@@ -536,13 +535,13 @@ namespace Infruesture
 
             //log4net 测试
 
-            var logInfo = "这是日志";
+            //var logInfo = "这是日志";
 
-            for (var i = 0; i < 100; i++)
-            {
-                LogHelper.Info(logInfo + "【" + i + "】");
-            }
-            Console.WriteLine("打印日志完成！");
+            //for (var i = 0; i < 100; i++)
+            //{
+            //    LogHelper.Info(logInfo + "【" + i + "】");
+            //}
+            //Console.WriteLine("打印日志完成！");
 
             //引用mysoft.Core组件记录日志
             //var mailAddress = "1013630498@qq.com";
@@ -554,10 +553,29 @@ namespace Infruesture
             //}
             //Console.WriteLine("记录日志完成！");
 
-          
+            //Random.Next() 返回非负随机数；
+            //Random.Next(Int) 返回一个小于所指定最大值的非负随机数
+            //Random.Next(Int,Int) 返回一个指定范围内的随机数，例如(-100，0)返回负数
+            var numRandom = new Random();
+            var numResult = numRandom.Next();
+            var numGridResult = numRandom.Next(1000);
+            var numSpanResult = numRandom.Next(1, 10000);
+            Console.WriteLine("返回的非负随机数为：" + numResult);
+            Console.WriteLine("返回小于指定数的随机数为："+ numGridResult);
+            Console.WriteLine("返回指定范围的随机数为：" + numSpanResult);
+
+            //产生0~1之间的随机数
+            var numDoubleResult = numRandom.NextDouble();
+            Console.WriteLine("产生的随机小数为："+ numDoubleResult);
+            Console.WriteLine(Environment.TickCount);
+            var maxNum = 10.22;
+            var minNum = 2.88;
+            var len = 4;
+            
+            var numDoubleResultByRule = Math.Round(numRandom.NextDouble() * (maxNum - minNum) + minNum, len);
+            Console.WriteLine("产出规定长度的随机小数为："+ numDoubleResultByRule);
 
             Console.Read();
-
             Console.ReadKey();
         }
 
