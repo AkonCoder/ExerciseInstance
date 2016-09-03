@@ -40,8 +40,15 @@ namespace Infruesture
             //int convertIntResult = Convert.ToInt32(null);
             //Console.WriteLine(convertIntResult);
             //int numResult;
-            //var tryParseResult = int.TryParse(null, out numResult);
+            //var tryParseResult = int.TryParse("4", out numResult);
             //Console.WriteLine(tryParseResult);
+
+            //转换空字符串的结果为
+            //int outResult;
+            ////Console.WriteLine(int.Parse(emptyNum));
+            //Console.WriteLine(int.TryParse(emptyNum, out  outResult));
+            //Console.WriteLine( Convert.ToInt32(emptyNum));
+
             //时间类型的转化
             //DateTime outDate;
             //var checkDate = "2016-07-29-999";
@@ -557,24 +564,24 @@ namespace Infruesture
             //Random.Next(Int) 返回一个小于所指定最大值的非负随机数
             //Random.Next(Int,Int) 返回一个指定范围内的随机数，例如(-100，0)返回负数
 
-            var bytes = new byte[4];
-            var rngObj = new RNGCryptoServiceProvider();
-            rngObj.GetBytes(bytes);
-            var seed = BitConverter.ToInt32(bytes, 0);
-            var numRandom = new Random();
-            var numSeedRandom = new Random(seed); 
+            //var bytes = new byte[4];
+            //var rngObj = new RNGCryptoServiceProvider();
+            //rngObj.GetBytes(bytes);
+            //var seed = BitConverter.ToInt32(bytes, 0);
+            //var numRandom = new Random();
+            //var numSeedRandom = new Random(seed); 
             
-            //var numResult = numRandom.Next();
-            //var numGridResult = numRandom.Next(1000);
+            ////var numResult = numRandom.Next();
+            ////var numGridResult = numRandom.Next(1000);
 
-            //http://www.cnblogs.com/imjustice/p/random_in_dotNet.html
-            //Console.WriteLine("返回的非负随机数为：" + numResult);
-            //Console.WriteLine("返回小于指定数的随机数为："+ numGridResult);
-            for (int i = 0; i < 1000; i++)
-            {
-                var numSpanResult = numRandom.Next(1, 10000);
-                Console.WriteLine("返回指定范围的随机数为：" + numSpanResult);
-            }
+            ////http://www.cnblogs.com/imjustice/p/random_in_dotNet.html
+            ////Console.WriteLine("返回的非负随机数为：" + numResult);
+            ////Console.WriteLine("返回小于指定数的随机数为："+ numGridResult);
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    var numSpanResult = numRandom.Next(1, 10000);
+            //    Console.WriteLine("返回指定范围的随机数为：" + numSpanResult);
+            //}
 
 
             ////产生0~1之间的随机数
