@@ -597,6 +597,19 @@ namespace Infruesture
             //    Console.WriteLine("产出规定长度的随机小数为：" + numDoubleResultByRule);
             //}
             
+
+            //dynamic 类型
+            dynamic dyn = 5;
+            Console.WriteLine(dyn.GetType());
+            dyn = "test string";
+            Console.WriteLine(dyn.GetType());
+            dynamic startIndex = 2;
+            string substring = dyn.Substring(startIndex);
+            Console.WriteLine(substring);
+            Console.Read();
+
+
+
             Console.Read();
             Console.ReadKey();
         }
