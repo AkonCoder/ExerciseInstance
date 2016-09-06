@@ -599,14 +599,18 @@ namespace Infruesture
             
 
             //dynamic 类型
-            dynamic dyn = 5;
-            Console.WriteLine(dyn.GetType());
-            dyn = "test string";
-            Console.WriteLine(dyn.GetType());
-            dynamic startIndex = 2;
-            string substring = dyn.Substring(startIndex);
-            Console.WriteLine(substring);
-            Console.Read();
+            //dynamic dyn = 5;
+            //Console.WriteLine(dyn.GetType());
+            //dyn = "test string";
+            //Console.WriteLine(dyn.GetType());
+            //dynamic startIndex = 2;
+            //string substring = dyn.Substring(startIndex);
+            //Console.WriteLine(substring);
+            //Console.Read();
+             
+            //当前日期是星期几
+            var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
+            Console.WriteLine("今天是："+ weekDate);
 
 
 
