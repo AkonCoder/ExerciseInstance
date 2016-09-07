@@ -8,6 +8,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Infruesture.Redis;
 using Newtonsoft.Json;
 
@@ -608,14 +609,58 @@ namespace Infruesture
             //Console.WriteLine(substring);
             //Console.Read();
              
-            //当前日期是星期几
-            var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
-            Console.WriteLine("今天是："+ weekDate);
+            ////当前日期是星期几
+            //var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
+            //Console.WriteLine("今天是："+ weekDate);
 
+            //Task多现成执行
+            Task t1 = new Task(() =>
+            {
+                Console.WriteLine("Task 1 Starts...");
+                Thread.Sleep(3000);
+                Console.WriteLine("Task1 Ends");
+            });
+            t1.Start();
+            Task t2 = new Task(() =>
+            {
+                Console.WriteLine("Task2 Starts...");
+                t1.Wait();
+                Console.WriteLine("Task2 Ends");
+            });
+            Task t3 = new Task(() =>
+            {
+                Console.WriteLine("Task 3 is waiting Task1 for 1 second...");
+                bool finished = t1.Wait(1000);
+                if (finished)
+                    Console.WriteLine("T1 is finished");
+                else
+                    Console.WriteLine("T1 is not finished");
+            });
 
-
+            Task t4 = new Task(() =>
+            {
+                Console.WriteLine("Waiting for all");
+                Task.WaitAll(t1, t2, t3);
+                Console.WriteLine("Task4 Ends");
+            });
+            t4.Start();
+            t2.Start();
+            t3.Start();
+            t4.Start();
+            Console.ReadLine();
             Console.Read();
             Console.ReadKey();
+        }
+
+        public static void ShowFirstTaskMessage()
+        {
+            Console.WriteLine("我是第一个任务，我跟第二个任务一起执行，只不过慢了！");
+        }
+
+
+        public static void ShowSecondTaskMessage()
+        {
+            Console.WriteLine("我是第二个任务！");
         }
 
         /// <summary>
@@ -1047,5 +1092,8 @@ namespace Infruesture
         {
             return Math.Sign(Math.Sqrt(x*x + y*y) - Math.Sqrt(p.x*p.x + p.y*p.y));
         }
+
+
+
     }
 }
