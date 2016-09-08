@@ -37,6 +37,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Script.I200.HangFireTask\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -68,8 +72,10 @@
   <ItemGroup>
     <Compile Include="ChineseCalendarInfo.cs" />
     <Compile Include="CommandInfo.cs" />
+    <Compile Include="DapperHelper.cs" />
     <Compile Include="DbHelperSQL.cs" />
     <Compile Include="EnumTest.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -612,11 +612,96 @@ namespace Infruesture
             var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
             Console.WriteLine("今天是："+ weekDate);
 
-
-
+            Console.WriteLine(Convert.ToBoolean(3));
+            //GetWeekBirthdayUsers(397);
             Console.Read();
             Console.ReadKey();
         }
+
+        public static void GetWeekBirthdayUsers(int accId)
+        {	
+            
+            StringBuilder strSql = new StringBuilder();
+			DateTime dt = DateTime.Now;
+
+                //最近7天生日会员
+
+				//阳历日期
+				var strDate = new StringBuilder();
+				DateTime lastDay = dt.AddDays(7);
+				int lastMonth = lastDay.Month;
+				if (lastMonth < dt.Month)
+				{
+					lastMonth += 12;
+				}
+
+				if (dt.Month == lastMonth)
+				{
+					strDate.Append(string.Format(" bdMonth={0}", dt.Month));
+					strDate.Append(string.Format(" and bdDay between {0} and {1}", dt.Day, lastDay.Day));
+				}
+				else if (lastMonth - dt.Month == 1)
+				{
+					var tmpDate = dt.AddMonths(1);
+					var endDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
+					strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
+					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1, lastDay.Day));
+				}
+				else if (lastMonth - dt.Month == 2)
+				{
+					var tmpDate = dt.AddMonths(1);
+					var endDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
+					var midDay = dt.AddMonths(1);
+					var midDayEndDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", midDay.Year, midDay.Month, 1)).AddDays(-1).Day;
+					strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
+					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", midDay.Month, 1, midDayEndDay));
+					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1, lastDay.Day));
+				}
+
+				//农历日期
+				var strLunarDate = new StringBuilder();
+				var lunarDate = Helper.ConvertToLunisolar(dt);
+				var lunarLastDate = Helper.ConvertToLunisolar(dt.AddDays(7));
+
+				var nlastMonth = lunarLastDate.Month;
+
+				if (nlastMonth < lunarDate.Month)
+				{
+					nlastMonth += 12;
+				}
+				if (lunarDate.Month == nlastMonth)
+				{
+					strLunarDate.Append(string.Format(" bdMonth={0}", lunarDate.Month));
+					strLunarDate.Append(string.Format(" and bdDay between {0} and {1}", lunarDate.Day, lunarLastDate.Day));
+				}
+				else if (nlastMonth - lunarDate.Month == 1)
+				{
+					var calendar = new ChineseLunisolarCalendar();
+					var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+					strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month, lunarDate.Day, endDay));
+					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month, 1, lunarLastDate.Day));
+				}
+				else if (nlastMonth - lunarDate.Month == 2)
+				{
+					var calendar = new ChineseLunisolarCalendar();
+					var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+					var midDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month + 1);
+					strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month, lunarDate.Day, endDay));
+					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month + 1, 1, midDay));
+					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month, 1, lunarLastDate.Day));
+				}
+
+				strSql.Append("SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
+                strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=1 and (" + strDate.ToString() + ")");
+				strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
+				strSql.Append("SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
+                strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=2 and (" + strLunarDate.ToString() + ")");
+				strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
+
+                var result = DapperHelper.Query(strSql.ToString(), new { accID = accId });
+        }
+
+
 
         /// <summary>
         ///     获得微信收单优惠券分享地址
@@ -996,7 +1081,7 @@ namespace Infruesture
     /// <summary>
     ///     静态类，来扩展User类
     /// </summary>
-    public static class Helper
+    public static partial class Helper
     {
         /// <summary>
         ///     第【4】种用法： this扩展User类
