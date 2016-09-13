@@ -537,8 +537,8 @@ namespace Infruesture
 
             //var userName = TestStaticClass.UserName;
             //Console.WriteLine("默认的用户名为：" + userName);
-            //var couponUrl = GetShortUrl(397, 12861);
-            //Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
+            var couponUrl = GetShortUrl(397, 6757);
+            Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
 
             //log4net 测试
 
@@ -609,10 +609,10 @@ namespace Infruesture
             //Console.Read();
              
             //当前日期是星期几
-            var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
-            Console.WriteLine("今天是："+ weekDate);
+            //var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
+            //Console.WriteLine("今天是："+ weekDate);
 
-            Console.WriteLine(Convert.ToBoolean(3));
+            //Console.WriteLine(Convert.ToBoolean(3));
             //GetWeekBirthdayUsers(397);
             Console.Read();
             Console.ReadKey();
@@ -703,8 +703,9 @@ namespace Infruesture
 
 
 
+
         /// <summary>
-        ///     获得微信收单优惠券分享地址
+        /// 获得微信收单优惠券分享地址
         /// </summary>
         /// <param name="accId">店铺ID</param>
         /// <param name="groupId"></param>
@@ -712,23 +713,23 @@ namespace Infruesture
         public static string GetShortUrl(int accId, int groupId)
         {
             var strSql = new StringBuilder();
-            strSql.Append("SELECT shortUrl FROM [I200].[dbo].[T_CouponInfo] WHERE accID=@accId AND id=@groupId ;");
+            strSql.Append("SELECT longUrl FROM [I200].[dbo].[T_CouponInfo] WHERE accID=@accId AND id=@groupId ;");
             var oResult = string.Empty;
             SqlParameter[] parms =
             {
                 new SqlParameter("@accId", SqlDbType.Int),
-                new SqlParameter("@groupId", SqlDbType.Int)
+                new SqlParameter("@groupId", SqlDbType.Int),
             };
             parms[0].Value = accId;
             parms[1].Value = groupId;
 
-            var ds = DbHelperSQL.Query(strSql.ToString(), parms);
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parms);
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                var row = ds.Tables[0].Rows[0];
-                if (row["shortUrl"] != null && row["shortUrl"] != "")
+                DataRow row = ds.Tables[0].Rows[0];
+                if (row["longUrl"] != null && row["longUrl"] != "")
                 {
-                    oResult = row["shortUrl"].ToString();
+                    oResult = row["longUrl"].ToString();
                 }
             }
             return oResult;
