@@ -537,8 +537,8 @@ namespace Infruesture
 
             //var userName = TestStaticClass.UserName;
             //Console.WriteLine("默认的用户名为：" + userName);
-            var couponUrl = GetShortUrl(397, 6757);
-            Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
+            //var couponUrl = GetShortUrl(397, 6757);
+            //Console.WriteLine("当前领优惠券的地址为:" + couponUrl);
 
             //log4net 测试
 
@@ -570,7 +570,7 @@ namespace Infruesture
             //var seed = BitConverter.ToInt32(bytes, 0);
             //var numRandom = new Random();
             //var numSeedRandom = new Random(seed); 
-            
+
             ////var numResult = numRandom.Next();
             ////var numGridResult = numRandom.Next(1000);
 
@@ -596,7 +596,7 @@ namespace Infruesture
             //    var numDoubleResultByRule = Math.Round(numRandom.NextDouble() * (maxNum - minNum) + minNum, len);
             //    Console.WriteLine("产出规定长度的随机小数为：" + numDoubleResultByRule);
             //}
-            
+
 
             //dynamic 类型
             //dynamic dyn = 5;
@@ -607,105 +607,194 @@ namespace Infruesture
             //string substring = dyn.Substring(startIndex);
             //Console.WriteLine(substring);
             //Console.Read();
-             
+
             //当前日期是星期几
             //var weekDate = DateTime.Now.AddDays(5).DayOfWeek.ToString();
             //Console.WriteLine("今天是："+ weekDate);
 
             //Console.WriteLine(Convert.ToBoolean(3));
             //GetWeekBirthdayUsers(397);
+
+            //1.json序列化和反序列化
+            var withdrawingStatus = new Dictionary<string, string>
+            {
+                {"4", "提现中"},
+                {"5", "提现成功"},
+                {"6", "提现失败"}
+            };
+            //微信收款交易状态值
+            var weChatBillingStatus = new Dictionary<string, string>
+            {
+                {"1", "交易中"},
+                {"4", "结算中"},
+                {"1000", "交易成功"}
+            };
+
+            //手机橱窗交易状态值
+            var mobileShowCaseBillingStatus = new Dictionary<string, string>
+            {
+                {"1", "待付款"},
+                {"4", "待收货"},
+                {"1000", "交易成功"}
+            };
+
+            var withdrawingAccountStatus = new Dictionary<string, string>
+            {
+                {"0", "审核中"},
+                {"1", "已认证"}
+            };
+
+            var businessType = new Dictionary<string, string>
+            {
+                {"2", "微信收款"},
+                {"4", "手机橱窗"}
+            };
+
+            var summaryStatus = new List<AccountBookStatusList>();
+            var firstStatus = new AccountBookStatusList
+            {
+                Key = "withdrawingStatus",
+                Value = withdrawingStatus
+            };
+            var secondStatus = new AccountBookStatusList
+            {
+                Key = "weChatBillingStatus",
+                Value = weChatBillingStatus
+            };
+            var thirdStatus = new AccountBookStatusList
+            {
+                Key = "mobileShowCaseBillingStatus",
+                Value = mobileShowCaseBillingStatus
+            };
+            var forthStatus = new AccountBookStatusList
+            {
+                Key = "withdrawingAccountStatus",
+                Value = withdrawingAccountStatus
+            };
+            var fifthStatus = new AccountBookStatusList
+            {
+                Key = "billingBusinessType",
+                Value = businessType
+            };
+
+            summaryStatus.Add(firstStatus);
+            summaryStatus.Add(secondStatus);
+            summaryStatus.Add(thirdStatus);
+            summaryStatus.Add(forthStatus);
+            summaryStatus.Add(fifthStatus);
+
+            var serilizeStatus = JsonConvert.SerializeObject(summaryStatus);
+
+            Console.WriteLine("系列化以后的状态值为：" + serilizeStatus);
+
+            var deserlizeStatus =
+                JsonConvert.DeserializeObject<List<AccountBookStatusList>>(serilizeStatus);
+            var withdrawingStatusShow = deserlizeStatus[0];
+
+            Console.WriteLine("反序列化以后的状态值为：" + withdrawingStatusShow);
+
+
             Console.Read();
             Console.ReadKey();
         }
 
         public static void GetWeekBirthdayUsers(int accId)
-        {	
-            
-            StringBuilder strSql = new StringBuilder();
-			DateTime dt = DateTime.Now;
+        {
+            var strSql = new StringBuilder();
+            var dt = DateTime.Now;
 
-                //最近7天生日会员
+            //最近7天生日会员
 
-				//阳历日期
-				var strDate = new StringBuilder();
-				DateTime lastDay = dt.AddDays(7);
-				int lastMonth = lastDay.Month;
-				if (lastMonth < dt.Month)
-				{
-					lastMonth += 12;
-				}
+            //阳历日期
+            var strDate = new StringBuilder();
+            var lastDay = dt.AddDays(7);
+            var lastMonth = lastDay.Month;
+            if (lastMonth < dt.Month)
+            {
+                lastMonth += 12;
+            }
 
-				if (dt.Month == lastMonth)
-				{
-					strDate.Append(string.Format(" bdMonth={0}", dt.Month));
-					strDate.Append(string.Format(" and bdDay between {0} and {1}", dt.Day, lastDay.Day));
-				}
-				else if (lastMonth - dt.Month == 1)
-				{
-					var tmpDate = dt.AddMonths(1);
-					var endDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
-					strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
-					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1, lastDay.Day));
-				}
-				else if (lastMonth - dt.Month == 2)
-				{
-					var tmpDate = dt.AddMonths(1);
-					var endDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
-					var midDay = dt.AddMonths(1);
-					var midDayEndDay = Convert.ToDateTime(string.Format("{0}-{1}-{2}", midDay.Year, midDay.Month, 1)).AddDays(-1).Day;
-					strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
-					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", midDay.Month, 1, midDayEndDay));
-					strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1, lastDay.Day));
-				}
+            if (dt.Month == lastMonth)
+            {
+                strDate.Append(string.Format(" bdMonth={0}", dt.Month));
+                strDate.Append(string.Format(" and bdDay between {0} and {1}", dt.Day, lastDay.Day));
+            }
+            else if (lastMonth - dt.Month == 1)
+            {
+                var tmpDate = dt.AddMonths(1);
+                var endDay =
+                    Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
+                strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
+                strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1,
+                    lastDay.Day));
+            }
+            else if (lastMonth - dt.Month == 2)
+            {
+                var tmpDate = dt.AddMonths(1);
+                var endDay =
+                    Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
+                var midDay = dt.AddMonths(1);
+                var midDayEndDay =
+                    Convert.ToDateTime(string.Format("{0}-{1}-{2}", midDay.Year, midDay.Month, 1)).AddDays(-1).Day;
+                strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
+                strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", midDay.Month, 1,
+                    midDayEndDay));
+                strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1,
+                    lastDay.Day));
+            }
 
-				//农历日期
-				var strLunarDate = new StringBuilder();
-				var lunarDate = Helper.ConvertToLunisolar(dt);
-				var lunarLastDate = Helper.ConvertToLunisolar(dt.AddDays(7));
+            //农历日期
+            var strLunarDate = new StringBuilder();
+            var lunarDate = Helper.ConvertToLunisolar(dt);
+            var lunarLastDate = Helper.ConvertToLunisolar(dt.AddDays(7));
 
-				var nlastMonth = lunarLastDate.Month;
+            var nlastMonth = lunarLastDate.Month;
 
-				if (nlastMonth < lunarDate.Month)
-				{
-					nlastMonth += 12;
-				}
-				if (lunarDate.Month == nlastMonth)
-				{
-					strLunarDate.Append(string.Format(" bdMonth={0}", lunarDate.Month));
-					strLunarDate.Append(string.Format(" and bdDay between {0} and {1}", lunarDate.Day, lunarLastDate.Day));
-				}
-				else if (nlastMonth - lunarDate.Month == 1)
-				{
-					var calendar = new ChineseLunisolarCalendar();
-					var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
-					strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month, lunarDate.Day, endDay));
-					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month, 1, lunarLastDate.Day));
-				}
-				else if (nlastMonth - lunarDate.Month == 2)
-				{
-					var calendar = new ChineseLunisolarCalendar();
-					var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
-					var midDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month + 1);
-					strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month, lunarDate.Day, endDay));
-					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month + 1, 1, midDay));
-					strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month, 1, lunarLastDate.Day));
-				}
+            if (nlastMonth < lunarDate.Month)
+            {
+                nlastMonth += 12;
+            }
+            if (lunarDate.Month == nlastMonth)
+            {
+                strLunarDate.Append(string.Format(" bdMonth={0}", lunarDate.Month));
+                strLunarDate.Append(string.Format(" and bdDay between {0} and {1}", lunarDate.Day, lunarLastDate.Day));
+            }
+            else if (nlastMonth - lunarDate.Month == 1)
+            {
+                var calendar = new ChineseLunisolarCalendar();
+                var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+                strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month,
+                    lunarDate.Day, endDay));
+                strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month,
+                    1, lunarLastDate.Day));
+            }
+            else if (nlastMonth - lunarDate.Month == 2)
+            {
+                var calendar = new ChineseLunisolarCalendar();
+                var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+                var midDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month + 1);
+                strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month,
+                    lunarDate.Day, endDay));
+                strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month + 1,
+                    1, midDay));
+                strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month,
+                    1, lunarLastDate.Day));
+            }
 
-				strSql.Append("SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
-                strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=1 and (" + strDate.ToString() + ")");
-				strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
-				strSql.Append("SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
-                strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=2 and (" + strLunarDate.ToString() + ")");
-				strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
+            strSql.Append(
+                "SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
+            strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=1 and (" + strDate + ")");
+            strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
+            strSql.Append(
+                "SELECT birthdayID,T_User_Birthday.[uid],T_UserInfo.uName,T_UserInfo.uPhone,T_UserInfo.uQQ,T_UserInfo.uNumber,T_UserInfo.uPortrait,IsLunar, bdName, bdYear, bdDate, bdMonth, bdDay,(uIntegral+uIntegralUsed) as uIntegral,T_UserInfo.uRank rankLv,'' rankName FROM T_User_Birthday left outer join T_UserInfo on T_UserInfo.[uid]=T_User_Birthday.[uid] ");
+            strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=2 and (" + strLunarDate + ")");
+            strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
 
-                var result = DapperHelper.Query(strSql.ToString(), new { accID = accId });
+            var result = DapperHelper.Query(strSql.ToString(), new {accID = accId});
         }
 
-
-
-
         /// <summary>
-        /// 获得微信收单优惠券分享地址
+        ///     获得微信收单优惠券分享地址
         /// </summary>
         /// <param name="accId">店铺ID</param>
         /// <param name="groupId"></param>
@@ -718,15 +807,15 @@ namespace Infruesture
             SqlParameter[] parms =
             {
                 new SqlParameter("@accId", SqlDbType.Int),
-                new SqlParameter("@groupId", SqlDbType.Int),
+                new SqlParameter("@groupId", SqlDbType.Int)
             };
             parms[0].Value = accId;
             parms[1].Value = groupId;
 
-            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parms);
+            var ds = DbHelperSQL.Query(strSql.ToString(), parms);
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                DataRow row = ds.Tables[0].Rows[0];
+                var row = ds.Tables[0].Rows[0];
                 if (row["longUrl"] != null && row["longUrl"] != "")
                 {
                     oResult = row["longUrl"].ToString();
@@ -1133,5 +1222,35 @@ namespace Infruesture
         {
             return Math.Sign(Math.Sqrt(x*x + y*y) - Math.Sqrt(p.x*p.x + p.y*p.y));
         }
+    }
+
+    /// <summary>
+    ///     微信收单列表状态
+    /// </summary>
+    public class AccountBookStatusList
+    {
+        /// <summary>
+        ///     Key
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
+        ///     Value
+        /// </summary>
+        public Dictionary<string, string> Value { get; set; }
+    }
+
+
+    public class AccountBookStatus
+    {
+        /// <summary>
+        ///     Key
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
+        ///     显示Text
+        /// </summary>
+        public string Text { get; set; }
     }
 }
