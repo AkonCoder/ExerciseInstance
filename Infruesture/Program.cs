@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Infruesture.Redis;
 using Newtonsoft.Json;
@@ -616,83 +617,95 @@ namespace Infruesture
             //GetWeekBirthdayUsers(397);
 
             //1.json序列化和反序列化
-            var withdrawingStatus = new Dictionary<string, string>
-            {
-                {"4", "提现中"},
-                {"5", "提现成功"},
-                {"6", "提现失败"}
-            };
-            //微信收款交易状态值
-            var weChatBillingStatus = new Dictionary<string, string>
-            {
-                {"1", "交易中"},
-                {"4", "结算中"},
-                {"1000", "交易成功"}
-            };
+            //var withdrawingStatus = new Dictionary<string, string>
+            //{
+            //    {"4", "提现中"},
+            //    {"5", "提现成功"},
+            //    {"6", "提现失败"}
+            //};
+            ////微信收款交易状态值
+            //var weChatBillingStatus = new Dictionary<string, string>
+            //{
+            //    {"1", "交易中"},
+            //    {"4", "结算中"},
+            //    {"1000", "交易成功"}
+            //};
 
-            //手机橱窗交易状态值
-            var mobileShowCaseBillingStatus = new Dictionary<string, string>
+            ////手机橱窗交易状态值
+            //var mobileShowCaseBillingStatus = new Dictionary<string, string>
+            //{
+            //    {"1", "待付款"},
+            //    {"4", "待收货"},
+            //    {"1000", "交易成功"}
+            //};
+
+            //var withdrawingAccountStatus = new Dictionary<string, string>
+            //{
+            //    {"0", "审核中"},
+            //    {"1", "已认证"}
+            //};
+
+            //var businessType = new Dictionary<string, string>
+            //{
+            //    {"2", "微信收款"},
+            //    {"4", "手机橱窗"}
+            //};
+
+            //var summaryStatus = new List<AccountBookStatusList>();
+            //var firstStatus = new AccountBookStatusList
+            //{
+            //    Key = "withdrawingStatus",
+            //    Value = withdrawingStatus
+            //};
+            //var secondStatus = new AccountBookStatusList
+            //{
+            //    Key = "weChatBillingStatus",
+            //    Value = weChatBillingStatus
+            //};
+            //var thirdStatus = new AccountBookStatusList
+            //{
+            //    Key = "mobileShowCaseBillingStatus",
+            //    Value = mobileShowCaseBillingStatus
+            //};
+            //var forthStatus = new AccountBookStatusList
+            //{
+            //    Key = "withdrawingAccountStatus",
+            //    Value = withdrawingAccountStatus
+            //};
+            //var fifthStatus = new AccountBookStatusList
+            //{
+            //    Key = "billingBusinessType",
+            //    Value = businessType
+            //};
+
+            //summaryStatus.Add(firstStatus);
+            //summaryStatus.Add(secondStatus);
+            //summaryStatus.Add(thirdStatus);
+            //summaryStatus.Add(forthStatus);
+            //summaryStatus.Add(fifthStatus);
+
+            //var serilizeStatus = JsonConvert.SerializeObject(summaryStatus);
+
+            //Console.WriteLine("系列化以后的状态值为：" + serilizeStatus);
+
+            //var deserlizeStatus =
+            //    JsonConvert.DeserializeObject<List<AccountBookStatusList>>(serilizeStatus);
+            //var withdrawingStatusShow = deserlizeStatus[0];
+
+            //Console.WriteLine("反序列化以后的状态值为：" + withdrawingStatusShow);
+
+            //校验只能输入数字、字母、中文、—、_
+            Console.WriteLine("请输入名称");
+            var checkName = Console.ReadLine();
+            var regExp = new Regex(@"^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$");
+            if (checkName != null && regExp.IsMatch(checkName))
             {
-                {"1", "待付款"},
-                {"4", "待收货"},
-                {"1000", "交易成功"}
-            };
-
-            var withdrawingAccountStatus = new Dictionary<string, string>
+                Console.WriteLine("名称有效");
+            }
+            else
             {
-                {"0", "审核中"},
-                {"1", "已认证"}
-            };
-
-            var businessType = new Dictionary<string, string>
-            {
-                {"2", "微信收款"},
-                {"4", "手机橱窗"}
-            };
-
-            var summaryStatus = new List<AccountBookStatusList>();
-            var firstStatus = new AccountBookStatusList
-            {
-                Key = "withdrawingStatus",
-                Value = withdrawingStatus
-            };
-            var secondStatus = new AccountBookStatusList
-            {
-                Key = "weChatBillingStatus",
-                Value = weChatBillingStatus
-            };
-            var thirdStatus = new AccountBookStatusList
-            {
-                Key = "mobileShowCaseBillingStatus",
-                Value = mobileShowCaseBillingStatus
-            };
-            var forthStatus = new AccountBookStatusList
-            {
-                Key = "withdrawingAccountStatus",
-                Value = withdrawingAccountStatus
-            };
-            var fifthStatus = new AccountBookStatusList
-            {
-                Key = "billingBusinessType",
-                Value = businessType
-            };
-
-            summaryStatus.Add(firstStatus);
-            summaryStatus.Add(secondStatus);
-            summaryStatus.Add(thirdStatus);
-            summaryStatus.Add(forthStatus);
-            summaryStatus.Add(fifthStatus);
-
-            var serilizeStatus = JsonConvert.SerializeObject(summaryStatus);
-
-            Console.WriteLine("系列化以后的状态值为：" + serilizeStatus);
-
-            var deserlizeStatus =
-                JsonConvert.DeserializeObject<List<AccountBookStatusList>>(serilizeStatus);
-            var withdrawingStatusShow = deserlizeStatus[0];
-
-            Console.WriteLine("反序列化以后的状态值为：" + withdrawingStatusShow);
-
+                Console.WriteLine("名称无效");
+            }
 
             Console.Read();
             Console.ReadKey();
