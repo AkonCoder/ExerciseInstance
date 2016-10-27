@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using log4net.Repository.Hierarchy;
 
 namespace Infruesture
@@ -119,6 +120,28 @@ namespace Infruesture
             ///     天
             /// </summary>
             public int Day { get; set; }
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否为合法数字(指定整数位数和小数位数)
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="precision">整数位数</param>
+        /// <param name="scale">小数位数</param>
+        /// <returns></returns>
+        public static bool IsNumber(string s, int precision, int scale)
+        {
+            if ((precision == 0) && (scale == 0))
+            {
+                return false;
+            }
+            string pattern = @"(^\d{1," + precision + "}";
+            if (scale > 0)
+            {
+                pattern += @"\.\d{0," + scale + "}$)|" + pattern;
+            }
+            pattern += "$)";
+            return Regex.IsMatch(s, pattern);
         }
     }
 }

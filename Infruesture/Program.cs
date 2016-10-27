@@ -695,20 +695,66 @@ namespace Infruesture
             //Console.WriteLine("反序列化以后的状态值为：" + withdrawingStatusShow);
 
             //校验只能输入数字、字母、中文、—、_
-            Console.WriteLine("请输入名称");
-            var checkName = Console.ReadLine();
-            var regExp = new Regex(@"^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$");
-            if (checkName != null && regExp.IsMatch(checkName))
-            {
-                Console.WriteLine("名称有效");
-            }
-            else
-            {
-                Console.WriteLine("名称无效");
-            }
+            //Console.WriteLine("请输入名称");
+            //var checkName = Console.ReadLine();
+            //var regExp = new Regex(@"^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$");
+            //if (checkName != null && regExp.IsMatch(checkName))
+            //{
+            //    Console.WriteLine("名称有效");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("名称无效");
+            //}
+            //var num = Math.Round(12.4464,2);
+            ////var strNum = "+3.2";
+            ////var showNum = Convert.ToInt32(strNum);
+            //Console.WriteLine("当前的数字为：" + num);
+
+           //Console.WriteLine("是否是合法的有效数字:"+ Helper.IsNumber("213.2",3,1));
+
+            //Regex reg = new Regex(@"^(\-|\+)?\d+(\.\d+)?$");
+            //var isNum = reg.IsMatch("+2.333");
+            //Console.WriteLine("是否是合法的有效数字:" + isNum);
+
+            ResponseModel responseModel;
+            Console.WriteLine("是否超过最大值：" + CheckMaxintegral(2,99,out responseModel));
+
+
+
 
             Console.Read();
             Console.ReadKey();
+        }
+
+
+
+        /// <summary>
+        /// 校验最大为整数
+        /// </summary>
+        /// <param name="integralLength">整数位数</param>
+        /// <param name="currentNum">当前数值</param>
+        /// <param name="responseModel">返回结果</param>
+        /// <returns></returns>
+        public static bool CheckMaxintegral(int integralLength, int currentNum, out  ResponseModel responseModel)
+        {
+            //1.根据当前最大位整数位数，产生最大整数
+            var maxNumAppend = new StringBuilder();
+            for (int i = 0; i < integralLength; i++)
+            {
+                maxNumAppend.Append(9);
+            }
+            var maxNum = Convert.ToInt32(maxNumAppend.ToString());
+            if (currentNum <= maxNum)
+            {
+                responseModel = null;
+                return false;
+            }
+            responseModel = new ResponseModel
+            {
+                Code = 0
+            };
+            return true;
         }
 
         public static void GetWeekBirthdayUsers(int accId)
