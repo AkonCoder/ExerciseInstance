@@ -714,11 +714,15 @@ namespace Infruesture
            //Console.WriteLine("是否是合法的有效数字:"+ Helper.IsNumber("213.2",3,1));
 
             //Regex reg = new Regex(@"^(\-|\+)?\d+(\.\d+)?$");
-            //var isNum = reg.IsMatch("+2.333");
+            //var isNum = reg.IsMatch("-/2.333");
             //Console.WriteLine("是否是合法的有效数字:" + isNum);
 
-            ResponseModel responseModel;
-            Console.WriteLine("是否超过最大值：" + CheckMaxintegral(2,99,out responseModel));
+            var regTestSphericalens = new Regex(@"^([1-9]\d{0,2}|0)(\.\d{1,2})?$");
+            var result = regTestSphericalens.IsMatch("1");
+            Console.WriteLine("是否匹配:"+ result);
+
+            //ResponseModel responseModel;
+            //Console.WriteLine("是否超过最大值：" + CheckMaxintegral(2,99,out responseModel));
 
 
 

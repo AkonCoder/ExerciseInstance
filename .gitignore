@@ -351,3 +351,7 @@
 /Infruesture/packages.config
 /packages/Tital.1.5.0.8/Tital.1.5.0.8.nupkg
 /packages/Tital.1.5.0.8/lib/net45/Tital.dll
+ExerciseInstance/bin/System.Net.Http.WebRequest.dll
+ExerciseInstance/bin/System.Net.Http.WebRequest.xml
+ExerciseInstance/bin/System.Net.Http.dll
+ExerciseInstance/bin/System.Net.Http.xml
