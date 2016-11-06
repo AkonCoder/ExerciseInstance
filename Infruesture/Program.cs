@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using Infruesture.Redis;
 using Newtonsoft.Json;
@@ -171,12 +171,12 @@ namespace Infruesture
             // 字符串驻留是CLR提供的一种提高性能的对待字符串的机制，它保证在一个进程内的某个字符串在内存中只分配一次;
             // 所以secondStr与thirdStr实质上是指向同一个对象的引用。
 
-            var firstNum = 10;
+            int firstNum = 10;
             double secondNum = 10;
-            var thirdNum = 10;
-            var firstStr = "LIUPENG";
-            var secondStr = "liupeng";
-            var thirdStr = "liupeng";
+            int thirdNum = 10;
+            string firstStr = "LIUPENG";
+            string secondStr = "liupeng";
+            string thirdStr = "liupeng";
 
             //测试题目1：
             //object m1 = 1;
@@ -711,36 +711,50 @@ namespace Infruesture
             ////var showNum = Convert.ToInt32(strNum);
             //Console.WriteLine("当前的数字为：" + num);
 
-           //Console.WriteLine("是否是合法的有效数字:"+ Helper.IsNumber("213.2",3,1));
+            //Console.WriteLine("是否是合法的有效数字:"+ Helper.IsNumber("213.2",3,1));
 
             //Regex reg = new Regex(@"^(\-|\+)?\d+(\.\d+)?$");
             //var isNum = reg.IsMatch("-/2.333");
             //Console.WriteLine("是否是合法的有效数字:" + isNum);
 
-            var regTestSphericalens = new Regex(@"^([1-9]\d{0,2}|0)(\.\d{1,2})?$");
-            var result = regTestSphericalens.IsMatch("1");
-            Console.WriteLine("是否匹配:"+ result);
+            //var regTestSphericalens = new Regex(@"^((180)|([1-9]\d{0,1})|(1[0-7]\d{1})|(0))$");
+            //var result = regTestSphericalens.IsMatch("0");
+            //Console.WriteLine("是否匹配:"+ result);
 
             //ResponseModel responseModel;
             //Console.WriteLine("是否超过最大值：" + CheckMaxintegral(2,99,out responseModel));
 
 
+            //101.1 测试C# 延迟加载，.Net4.0以后提供延迟加载的东西，对象在使用时候加载
 
+            //var lazyStr = new Lazy<string>(LazyClass.GetLazyPerson);
+            //Console.WriteLine(lazyStr.IsValueCreated);
+            //Console.WriteLine(lazyStr.Value);
+            //Console.WriteLine(lazyStr.IsValueCreated);
 
+            //101.1  子对象延迟加载
+            //父亲由于时间不足，只能延迟加载去看多个儿子的showtime
+            var parent = new Parent(4);
+            Console.WriteLine("parent see show is begin:");
+            Console.WriteLine(parent.ShowListTitle.IsValueCreated);
+            foreach (var item in parent.ShowListTitle.Value)
+            {
+                Console.WriteLine("my age is {0}, my show is {1}", item.Age, item.ShowName);
+            }
+            Console.WriteLine(parent.ShowListTitle.IsValueCreated);
             Console.Read();
             Console.ReadKey();
         }
 
 
-
         /// <summary>
-        /// 校验最大为整数
+        ///     校验最大为整数
         /// </summary>
         /// <param name="integralLength">整数位数</param>
         /// <param name="currentNum">当前数值</param>
         /// <param name="responseModel">返回结果</param>
         /// <returns></returns>
-        public static bool CheckMaxintegral(int integralLength, int currentNum, out  ResponseModel responseModel)
+        public static bool CheckMaxintegral(int integralLength, int currentNum, out ResponseModel responseModel)
         {
             //1.根据当前最大位整数位数，产生最大整数
             var maxNumAppend = new StringBuilder();
@@ -748,7 +762,7 @@ namespace Infruesture
             {
                 maxNumAppend.Append(9);
             }
-            var maxNum = Convert.ToInt32(maxNumAppend.ToString());
+            int maxNum = Convert.ToInt32(maxNumAppend.ToString());
             if (currentNum <= maxNum)
             {
                 responseModel = null;
@@ -764,14 +778,14 @@ namespace Infruesture
         public static void GetWeekBirthdayUsers(int accId)
         {
             var strSql = new StringBuilder();
-            var dt = DateTime.Now;
+            DateTime dt = DateTime.Now;
 
             //最近7天生日会员
 
             //阳历日期
             var strDate = new StringBuilder();
-            var lastDay = dt.AddDays(7);
-            var lastMonth = lastDay.Month;
+            DateTime lastDay = dt.AddDays(7);
+            int lastMonth = lastDay.Month;
             if (lastMonth < dt.Month)
             {
                 lastMonth += 12;
@@ -784,8 +798,8 @@ namespace Infruesture
             }
             else if (lastMonth - dt.Month == 1)
             {
-                var tmpDate = dt.AddMonths(1);
-                var endDay =
+                DateTime tmpDate = dt.AddMonths(1);
+                int endDay =
                     Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
                 strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
                 strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lastDay.Month, 1,
@@ -793,11 +807,11 @@ namespace Infruesture
             }
             else if (lastMonth - dt.Month == 2)
             {
-                var tmpDate = dt.AddMonths(1);
-                var endDay =
+                DateTime tmpDate = dt.AddMonths(1);
+                int endDay =
                     Convert.ToDateTime(string.Format("{0}-{1}-{2}", tmpDate.Year, tmpDate.Month, 1)).AddDays(-1).Day;
-                var midDay = dt.AddMonths(1);
-                var midDayEndDay =
+                DateTime midDay = dt.AddMonths(1);
+                int midDayEndDay =
                     Convert.ToDateTime(string.Format("{0}-{1}-{2}", midDay.Year, midDay.Month, 1)).AddDays(-1).Day;
                 strDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", dt.Month, dt.Day, endDay));
                 strDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", midDay.Month, 1,
@@ -808,10 +822,10 @@ namespace Infruesture
 
             //农历日期
             var strLunarDate = new StringBuilder();
-            var lunarDate = Helper.ConvertToLunisolar(dt);
-            var lunarLastDate = Helper.ConvertToLunisolar(dt.AddDays(7));
+            Helper.ChinaDate lunarDate = Helper.ConvertToLunisolar(dt);
+            Helper.ChinaDate lunarLastDate = Helper.ConvertToLunisolar(dt.AddDays(7));
 
-            var nlastMonth = lunarLastDate.Month;
+            int nlastMonth = lunarLastDate.Month;
 
             if (nlastMonth < lunarDate.Month)
             {
@@ -825,7 +839,7 @@ namespace Infruesture
             else if (nlastMonth - lunarDate.Month == 1)
             {
                 var calendar = new ChineseLunisolarCalendar();
-                var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+                int endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
                 strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month,
                     lunarDate.Day, endDay));
                 strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarLastDate.Month,
@@ -834,8 +848,8 @@ namespace Infruesture
             else if (nlastMonth - lunarDate.Month == 2)
             {
                 var calendar = new ChineseLunisolarCalendar();
-                var endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
-                var midDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month + 1);
+                int endDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month);
+                int midDay = calendar.GetDaysInMonth(lunarDate.Year, lunarDate.Month + 1);
                 strLunarDate.Append(string.Format(" (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month,
                     lunarDate.Day, endDay));
                 strLunarDate.Append(string.Format(" or (bdMonth={0} and bdDay between {1} and {2})", lunarDate.Month + 1,
@@ -853,7 +867,7 @@ namespace Infruesture
             strSql.Append(" where T_User_Birthday.[accID]=@accID and [IsLunar]=2 and (" + strLunarDate + ")");
             strSql.Append(" order by  [IsLunar],[bdDate] asc; ");
 
-            var result = DapperHelper.Query(strSql.ToString(), new {accID = accId});
+            IEnumerable<dynamic> result = DapperHelper.Query(strSql.ToString(), new {accID = accId});
         }
 
         /// <summary>
@@ -866,7 +880,7 @@ namespace Infruesture
         {
             var strSql = new StringBuilder();
             strSql.Append("SELECT longUrl FROM [I200].[dbo].[T_CouponInfo] WHERE accID=@accId AND id=@groupId ;");
-            var oResult = string.Empty;
+            string oResult = string.Empty;
             SqlParameter[] parms =
             {
                 new SqlParameter("@accId", SqlDbType.Int),
@@ -875,10 +889,10 @@ namespace Infruesture
             parms[0].Value = accId;
             parms[1].Value = groupId;
 
-            var ds = DbHelperSQL.Query(strSql.ToString(), parms);
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parms);
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                var row = ds.Tables[0].Rows[0];
+                DataRow row = ds.Tables[0].Rows[0];
                 if (row["longUrl"] != null && row["longUrl"] != "")
                 {
                     oResult = row["longUrl"].ToString();
@@ -893,7 +907,7 @@ namespace Infruesture
         /// <returns></returns>
         public static bool WriteRedisData()
         {
-            var userOpenId = "oHow7xD3tiBtJTerP5KQjPv5wmP8";
+            string userOpenId = "oHow7xD3tiBtJTerP5KQjPv5wmP8";
             var weChatOrdersPushReport = new WeChatOrdersPushReport
             {
                 UserOpenId = userOpenId,
@@ -909,7 +923,7 @@ namespace Infruesture
                 WeixinPayDefaultCoupon = 13123412
             };
 
-            var sendObj = JsonConvert.SerializeObject(weChatOrdersPushReport);
+            string sendObj = JsonConvert.SerializeObject(weChatOrdersPushReport);
             var redisProvider = new RedisProvider();
             return redisProvider.Set(userOpenId, sendObj, 1800);
         }
@@ -917,7 +931,7 @@ namespace Infruesture
         public static void WriteMessage(string info)
         {
             Thread.Sleep(2000);
-            var message = string.Format("当前的发送消息为：{0}", info);
+            string message = string.Format("当前的发送消息为：{0}", info);
             Console.WriteLine(message);
         }
 
@@ -929,10 +943,10 @@ namespace Infruesture
         private static string SolarToChineseLunisolarDate(DateTime solarDateTime)
         {
             var cal = new ChineseLunisolarCalendar();
-            var year = cal.GetYear(solarDateTime);
-            var month = cal.GetMonth(solarDateTime);
-            var day = cal.GetDayOfMonth(solarDateTime);
-            var leapMonth = cal.GetLeapMonth(year);
+            int year = cal.GetYear(solarDateTime);
+            int month = cal.GetMonth(solarDateTime);
+            int day = cal.GetDayOfMonth(solarDateTime);
+            int leapMonth = cal.GetLeapMonth(year);
             return string.Join("-", year, month, day);
         }
 
@@ -942,10 +956,10 @@ namespace Infruesture
         public static string StramWriteFile()
         {
             var showTxt = new StringBuilder();
-            var testFilePath = @"D:\tempStudy\1.txt";
+            string testFilePath = @"D:\tempStudy\1.txt";
             var fs = new FileStream(testFilePath, FileMode.Open);
             var swReader = new StreamReader(fs);
-            var iChar = swReader.Read();
+            int iChar = swReader.Read();
             while (iChar != -1)
             {
                 showTxt.Append(Convert.ToChar(iChar));
@@ -968,7 +982,7 @@ namespace Infruesture
             var bytes = new byte[4];
             var rngObj = new RNGCryptoServiceProvider();
             rngObj.GetBytes(bytes);
-            var seed = BitConverter.ToInt32(bytes, 0);
+            int seed = BitConverter.ToInt32(bytes, 0);
             var random = new Random(seed);
             return Math.Round(random.NextDouble()*(maxNum - minNum) + minNum, len);
         }
@@ -991,9 +1005,9 @@ namespace Infruesture
         /// <returns></returns>
         public static void GetStrByStringBuild()
         {
-            var strNameKey = "liupeng";
+            string strNameKey = "liupeng";
             var strName = new StringBuilder();
-            for (var i = 0; i < DoNum; i++)
+            for (int i = 0; i < DoNum; i++)
             {
                 strName.Append(strNameKey);
             }
@@ -1005,9 +1019,9 @@ namespace Infruesture
         /// <returns></returns>
         public static void GetStrByString()
         {
-            var strName = "";
-            var strNameKey = "liupeng";
-            for (var i = 0; i < DoNum; i++)
+            string strName = "";
+            string strNameKey = "liupeng";
+            for (int i = 0; i < DoNum; i++)
             {
                 strName += strNameKey;
             }
@@ -1025,8 +1039,54 @@ namespace Infruesture
             stopWatch.Start();
             func.Invoke();
             stopWatch.Stop();
-            var seconds = stopWatch.Elapsed;
+            TimeSpan seconds = stopWatch.Elapsed;
             Console.WriteLine("{0}拼接字符串所消耗的时间为：{1}", operationName, seconds);
+        }
+
+
+        /// <summary>
+        ///     创建延迟加载类
+        /// </summary>
+        public static class LazyClass
+        {
+            /// <summary>
+            ///     获取短日期时间
+            /// </summary>
+            /// <returns></returns>
+            public static string GetLazyPerson()
+            {
+                return string.Format("i am a lazy person,now is {0},i do not want to get up!", DateTime.Now);
+            }
+        }
+
+        public class MusicTitles
+        {
+            private readonly string[] names = {"a", "b", "c", "d"};
+            private string[] _tempName = {"1", "2"};
+
+            public IEnumerator<string> GetEnumerator()
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Reverse()
+            {
+                for (int i = 3; i >= 0; i--)
+                {
+                    yield return names[i];
+                }
+            }
+
+            public IEnumerable<string> Subset(int index, int length)
+            {
+                for (int i = index; i < index + length; i++)
+                {
+                    yield return names[i];
+                }
+            }
         }
 
         public class MyName
@@ -1043,35 +1103,25 @@ namespace Infruesture
             public string Age { get; set; }
         }
 
-        private delegate void WriteMessageDelegate(string msg);
-
-        public class MusicTitles
+        public class Parent
         {
-            private readonly string[] names = {"a", "b", "c", "d"};
-            private string[] _tempName = {"1", "2"};
+            /// <summary>
+            ///     年龄
+            /// </summary>
+            public int Id { get; set; }
 
-            public IEnumerator<string> GetEnumerator()
+            public Lazy<IEnumerable<TheShowTitle>> ShowListTitle
             {
-                for (var i = 0; i < 4; i++)
-                {
-                    yield return names[i];
-                }
+                get; set;
             }
 
-            public IEnumerable<string> Reverse()
+            /// <summary>
+            /// 初始化
+            /// </summary>
+            public Parent(int id)
             {
-                for (var i = 3; i >= 0; i--)
-                {
-                    yield return names[i];
-                }
-            }
-
-            public IEnumerable<string> Subset(int index, int length)
-            {
-                for (var i = index; i < index + length; i++)
-                {
-                    yield return names[i];
-                }
+                this.Id = id;
+                this.ShowListTitle = new Lazy<IEnumerable<TheShowTitle>>(()=>SonShowService.GetSonShowTimeTitle(5));
             }
         }
 
@@ -1086,6 +1136,57 @@ namespace Infruesture
             {
             }
         }
+
+        public class SonShowService
+        {
+            /// <summary>
+            ///     获取son表演的主题
+            /// </summary>
+            /// <returns></returns>
+            public static IEnumerable<TheShowTitle> GetSonShowTimeTitle(int age)
+            {
+                var returnShowTitle = new List<TheShowTitle>
+                {
+                    new TheShowTitle
+                    {
+                        Age = 5,
+                        ShowName = "basketball"
+                    },
+                    new TheShowTitle
+                    {
+                        Age = 6,
+                        ShowName = "football"
+                    },
+                    new TheShowTitle
+                    {
+                        Age = 7,
+                        ShowName = "music"
+                    },
+                    new TheShowTitle
+                    {
+                        Age = 8,
+                        ShowName = "kongfu"
+                    }
+                };
+
+                return returnShowTitle.Where(x => x.Age == age);
+            }
+        }
+
+        public class TheShowTitle
+        {
+            /// <summary>
+            ///     年龄
+            /// </summary>
+            public int Age { get; set; }
+
+            /// <summary>
+            ///     表演主题
+            /// </summary>
+            public string ShowName { get; set; }
+        }
+
+        private delegate void WriteMessageDelegate(string msg);
     }
 
     public struct GetUserName
