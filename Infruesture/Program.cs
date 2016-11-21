@@ -734,18 +734,59 @@ namespace Infruesture
 
             //101.1  子对象延迟加载
             //父亲由于时间不足，只能延迟加载去看多个儿子的showtime
-            var parent = new Parent(4);
-            Console.WriteLine("parent see show is begin:");
-            Console.WriteLine(parent.ShowListTitle.IsValueCreated);
-            foreach (var item in parent.ShowListTitle.Value)
-            {
-                Console.WriteLine("my age is {0}, my show is {1}", item.Age, item.ShowName);
-            }
-            Console.WriteLine(parent.ShowListTitle.IsValueCreated);
+            //var parent = new Parent(4);
+            //Console.WriteLine("parent see show is begin:");
+            //Console.WriteLine(parent.ShowListTitle.IsValueCreated);
+            //foreach (var item in parent.ShowListTitle.Value)
+            //{
+            //    Console.WriteLine("my age is {0}, my show is {1}", item.Age, item.ShowName);
+            //}
+            //Console.WriteLine(parent.ShowListTitle.IsValueCreated);]
+            
+            //102 attribute使用
+
+
+
+
+
             Console.Read();
             Console.ReadKey();
         }
 
+
+        public class  NickNameAttribute:Attribute
+        {
+            public NickNameAttribute(string bigName,string smallName)
+            {
+                BigName = bigName;
+                SmallName = smallName;
+            }
+
+            /// <summary>
+            /// 大名字
+            /// </summary>
+            public string BigName { get; set; }
+
+            /// <summary>
+            /// 小名字
+            /// </summary>
+            public string SmallName { get; set; }
+        }
+
+      public class NameShow
+      {
+          [NickName("ZS","zhangsan")]
+          public string Zhangsan { get; set; }
+
+          [NickName("LS","lisi")]
+          public string Lisi { get; set; }
+      }
+
+        public class NickNameConfig
+        {
+            public string BigName { get; set; }
+            public string SmallName { get; set; }
+        }
 
         /// <summary>
         ///     校验最大为整数

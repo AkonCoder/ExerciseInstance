@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/Lodop6.208_CLodop2.068/LodopFuncs.js"></script>
+    <script type="text/javascript">
+        function myPreview1() {
+            var LODOP = getLodop();
+            LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_右边距下边距设置1");
+            LODOP.ADD_PRINT_HTM("5mm", 34, "RightMargin:0.9cm", "BottomMargin:9mm", document.documentElement.innerHTML);
+            LODOP.PREVIEW();
+        };
+    </script>
+</head>
+    <body>
+        <div>
+            <input type="button"  value="测试打印" onclick="myPreview1();" />
+        </div>
+    </body>
+</html>

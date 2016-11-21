@@ -1,0 +1,267 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <title>测试lodop打印</title>
+    <style type="text/css">
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Helvetica', 'STHeitiSC-Light', Arial, sans-serif;
+            word-spacing: 1px;
+            letter-spacing: 0.2px;
+            font-size: 9pt !important;
+        }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .row {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .col {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        h1 {
+            font-size: 20px;
+            padding: 15px 0;
+            margin: 15px 0;
+            font-weight: 300;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .pull-left {
+            float: left;
+        }
+
+        .pull-right {
+            float: right;
+        }
+
+        .header {
+            height: 24px;
+            line-height: 24px;
+            margin-bottom: 15px;
+        }
+
+        .body h5 {
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .body .table {
+            border: 1px solid #999;
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+            .body .table > tbody > tr > td,
+            .body .table > tbody > tr > th,
+            .body .table > tfoot > tr > td,
+            .body .table > tfoot > tr > th,
+            .body .table > thead > tr > td,
+            .body .table > thead > tr > th {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border: 1px solid #999;
+                width: 11.11111111%;
+                font-size: 14px;
+                vertical-align: middle;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+        .footer {
+            margin-bottom: 10px;
+        }
+
+            .footer p {
+                line-height: 20px;
+            }
+
+        .light {
+            color: #999;
+        }
+
+        .mr-10 {
+            margin-right: 10px;
+        }
+
+        span {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>脑袋疼大酒店</h1>
+        <div class="header">
+            <div class="pull-left">
+                <span class="mr-10">会员姓名：李紫娟 </span>
+                <span class="mr-10">手机号码：13482429939 </span>
+                <span class="mr-10">验光时间：2016-11-14 11:13:00</span>
+            </div>
+        </div>
+        <div class="body">
+            <h5>近视处方</h5>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>球镜</td>
+                        <td>柱镜</td>
+                        <td>轴位</td>
+                        <td>棱镜度</td>
+                        <td colspan="2">
+                            <p>瞳距（mm）</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                        <td colspan="2">
+                            <p>矫正视力</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>右眼(R或OD)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">
+                            -
+                        </td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">-</td>
+                    </tr>
+                    <tr>
+                        <td>左眼(L或OS)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>备注信息</td>
+                        <td colspan="8" class="ng-binding">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>远视处方</h5>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>球镜</td>
+                        <td>柱镜</td>
+                        <td>轴位</td>
+                        <td>棱镜度</td>
+                        <td colspan="2">
+                            <p>瞳距（mm）</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                        <td colspan="2">
+                            <p>矫正视力</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>右眼(R或OD)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">
+                            -
+                        </td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">-</td>
+                    </tr>
+                    <tr>
+                        <td>左眼(L或OS)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>备注信息</td>
+                        <td colspan="8" class="ng-binding">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5>隐形处方</h5>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>球镜</td>
+                        <td>柱镜</td>
+                        <td>轴位</td>
+                        <td colspan="2">
+                            <p>瞳距（mm）</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                        <td colspan="2">
+                            <p>矫正视力</p>
+                            <p>单眼 I 双眼</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>右眼(R或OD)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">
+                            -
+                        </td>
+                        <td>-</td>
+                        <td rowspan="2" style="vertical-align: middle;">-</td>
+                    </tr>
+                    <tr>
+                        <td>左眼(L或OS)</td>
+                        <td>+12</td>
+                        <td>+12</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>备注信息</td>
+                        <td colspan="8" class="ng-binding">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <span class="mr-10">地址：新疆乌鲁木齐沙依巴克区</span><span class="mr-10">联系电话：13144446678</span>
+        </div>
+    </div>
+</body>
+</html>
