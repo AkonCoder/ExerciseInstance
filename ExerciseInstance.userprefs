@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{A5B63014-4D17-4A90-AA53-86F9C6D31A48}|">
+  <MonoDevelop.Ide.ItemProperties.Infruesture PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestLodopPrint/Views/Print/Index.cshtml">
+    <Files>
+      <File FileName="Infruesture/Program.cs" Line="21" Column="40" />
+      <File FileName="TestLodopPrint/Controllers/AccountController.cs" Line="1" Column="1" />
+      <File FileName="TestLodopPrint/Controllers/HomeController.cs" Line="1" Column="1" />
+      <File FileName="TestLodopPrint/Controllers/PrintController.cs" Line="14" Column="27" />
+      <File FileName="TestLodopPrint/Views/Print/Index.cshtml" Line="15" Column="36" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ExerciseInstance PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.TestLodopPrint PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
