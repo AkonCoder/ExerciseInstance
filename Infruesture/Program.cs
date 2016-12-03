@@ -744,18 +744,32 @@ namespace Infruesture
             //Console.WriteLine(parent.ShowListTitle.IsValueCreated);]
 
             //测试时间格式
-            const string dateTimeStr = "0001-01-01";
-            var result = DateTime.Now;
-            var searchDate = DateTime.TryParse(dateTimeStr,out result);
-            if (searchDate)
+            //const string dateTimeStr = "0001-01-01";
+            //var result = DateTime.Now;
+            //var searchDate = DateTime.TryParse(dateTimeStr,out result);
+            //if (searchDate)
+            //{
+            //    Console.WriteLine("this is a really Datetime");
+            //}
+
+            //var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            //const int expireDays = 7;
+            //var endDate = startDate.AddDays(expireDays).AddDays(1).AddSeconds(-1);
+            //Console.WriteLine(string.Format("开始时间为：{0},结束时间为：{1}",startDate,endDate));
+           
+            //测试linq
+
+            string[] names = {"Tommy","liupeng","Jack","Tom"};
+            IEnumerable<string> query = from n in names
+                where n.Contains("a")
+                orderby n.Length
+                select n.ToUpper();
+            foreach (var oItem in query)
             {
-                Console.WriteLine("this is a really Datetime");
+                Console.WriteLine(oItem);
             }
 
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
-            const int expireDays = 7;
-            var endDate = startDate.AddDays(expireDays).AddDays(1).AddSeconds(-1);
-            Console.WriteLine(string.Format("开始时间为：{0},结束时间为：{1}",startDate,endDate));
+
             Console.Read();
             Console.ReadKey();
         }
