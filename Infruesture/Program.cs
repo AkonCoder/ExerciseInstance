@@ -758,7 +758,7 @@ namespace Infruesture
             //Console.WriteLine(string.Format("开始时间为：{0},结束时间为：{1}",startDate,endDate));
            
             //测试linq
-
+            //(1) 测试linq查询表达式
             string[] names = {"Tommy","liupeng","Jack","Tom"};
             IEnumerable<string> query = from n in names
                 where n.Contains("a")
@@ -769,6 +769,14 @@ namespace Infruesture
                 Console.WriteLine(oItem);
             }
 
+            //（2）测试linq方法查询
+            IEnumerable<string> functionQuery =
+                names.Where(x => x.Contains("a")).OrderBy(x => x.Length).Select(x => x.ToUpper());
+
+            foreach (var item in functionQuery)
+            {
+                Console.WriteLine(item);
+            }
 
             Console.Read();
             Console.ReadKey();
