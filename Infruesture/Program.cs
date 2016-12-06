@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Infruesture.Redis;
 using Newtonsoft.Json;
@@ -759,25 +760,32 @@ namespace Infruesture
            
             //测试linq
             //(1) 测试linq查询表达式
-            string[] names = {"Tommy","liupeng","Jack","Tom"};
-            IEnumerable<string> query = from n in names
-                where n.Contains("a")
-                orderby n.Length
-                select n.ToUpper();
-            foreach (var oItem in query)
+            //string[] names = {"Tommy","liupeng","Jack","Tom"};
+            //IEnumerable<string> query = from n in names
+            //    where n.Contains("a")
+            //    orderby n.Length
+            //    select n.ToUpper();
+            //foreach (var oItem in query)
+            //{
+            //    Console.WriteLine(oItem);
+            //}
+
+            ////（2）测试linq方法查询
+            //IEnumerable<string> functionQuery =
+            //    names.Where(x => x.Contains("a")).OrderBy(x => x.Length).Select(x => x.ToUpper());
+
+            //foreach (var item in functionQuery)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            var regularException = @"[~!@#$%^&*]";
+            var readStr = Console.ReadLine();
+            if (Regex.IsMatch(readStr,regularException))
             {
-                Console.WriteLine(oItem);
+                Console.WriteLine("当前匹配");
             }
-
-            //（2）测试linq方法查询
-            IEnumerable<string> functionQuery =
-                names.Where(x => x.Contains("a")).OrderBy(x => x.Length).Select(x => x.ToUpper());
-
-            foreach (var item in functionQuery)
-            {
-                Console.WriteLine(item);
-            }
-
+           
             Console.Read();
             Console.ReadKey();
         }
