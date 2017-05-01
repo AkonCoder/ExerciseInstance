@@ -779,13 +779,17 @@ namespace Infruesture
             //    Console.WriteLine(item);
             //}
 
-            var regularException = @"[~!@#$%^&*]";
-            var readStr = Console.ReadLine();
-            if (Regex.IsMatch(readStr,regularException))
-            {
-                Console.WriteLine("当前匹配");
-            }
+            //var regularException = @"[~!@#$%^&*]";
+            //var readStr = Console.ReadLine();
+            //if (Regex.IsMatch(readStr,regularException))
+            //{
+            //    Console.WriteLine("当前匹配");
+            //}
            
+             //测试单例模式
+            var instanceObj = Singleton.GetInstance();
+            
+
             Console.Read();
             Console.ReadKey();
         }
