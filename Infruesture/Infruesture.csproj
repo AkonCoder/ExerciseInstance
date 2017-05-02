@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncAndAwait.cs" />
     <Compile Include="ChineseCalendarInfo.cs" />
     <Compile Include="CommandInfo.cs" />
     <Compile Include="DapperHelper.cs" />

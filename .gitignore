@@ -420,3 +420,8 @@ TestLodopPrint.Tests/obj/Debug/TestLodopPrint.Tests.csproj.FileListAbsolute.txt
 TestLodopPrint.Tests/obj/Debug/TestLodopPrint.Tests.csprojResolveAssemblyReference.cache
 TestLodopPrint.Tests/obj/Debug/TestLodopPrint.Tests.dll
 TestLodopPrint.Tests/obj/Debug/TestLodopPrint.Tests.pdb
+TestLodopPrint.Tests/bin/Debug/zh-Hans/Microsoft.AspNet.Identity.Core.resources.dll
+TestLodopPrint/bin/TestLodopPrint.dll
+TestLodopPrint/bin/TestLodopPrint.pdb
+TestLodopPrint/obj/Debug/TestLodopPrint.dll
+TestLodopPrint/obj/Debug/TestLodopPrint.pdb
