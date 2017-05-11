@@ -788,12 +788,41 @@ namespace Infruesture
            
              //测试单例模式
             //var instanceObj = Singleton.GetInstance();
-            const int accountId = 397;
-            var newAccountId = AccountIdShow(accountId);
-            Console.WriteLine(newAccountId);
+            //const int accountId = 397;
+            //var newAccountId = AccountIdShow(accountId);
+            //Console.WriteLine(newAccountId);
 
+            var currentDatetime = DateTime.Now;
+            Console.WriteLine("当前的时间戳为：{0}", ConvertDateTimeInt(currentDatetime));
+
+            const long currentTicks = 1494485006;
+            Console.WriteLine("当前的时间戳为：{0}", ConvertStringToDateTime(currentTicks));
+  
             Console.Read();
             Console.ReadKey();
+        }
+
+        /// <summary>        
+        /// 时间戳转为C#格式时间        
+        /// </summary>        
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>        
+        public static DateTime ConvertStringToDateTime(long timeStamp)
+        {
+            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)); // 当地时区
+            DateTime dt = startTime.AddSeconds(timeStamp);
+            return dt;
+        }
+
+        /// <summary>
+        /// DateTime时间格式转换为Unix时间戳格式
+        /// </summary>
+        /// <param name="time"> DateTime时间格式</param>
+        /// <returns>Unix时间戳格式</returns>
+        public static int ConvertDateTimeInt(System.DateTime time)
+        {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            return (int)(time - startTime).TotalSeconds;
         }
 
         public static string AccountIdShow(int accid)
