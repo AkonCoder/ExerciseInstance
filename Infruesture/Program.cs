@@ -787,13 +787,34 @@ namespace Infruesture
             //}
            
              //测试单例模式
-            var instanceObj = Singleton.GetInstance();
-            
+            //var instanceObj = Singleton.GetInstance();
+            const int accountId = 397;
+            var newAccountId = AccountIdShow(accountId);
+            Console.WriteLine(newAccountId);
 
             Console.Read();
             Console.ReadKey();
         }
 
+        public static string AccountIdShow(int accid)
+        {
+            string aString = accid.ToString();
+            while (aString.Length > 1)
+            {
+                char[] list = aString.ToCharArray();
+                if (list.Count() > 0)
+                {
+                    int newVal = 0;
+                    foreach (char item in list)
+                    {
+                        newVal += Convert.ToInt32(item.ToString());
+                    }
+                    aString = newVal.ToString();
+                }
+            }
+
+            return accid.ToString() + aString;
+        }
 
         public class  NickNameAttribute:Attribute
         {
